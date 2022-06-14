@@ -5,3 +5,5 @@ https://viblo.asia/q/giup-em-cai-thien-database-he-thong-dat-ve-xem-phim-online-
 https://sharecode.vn/source-code/code-do-an-ban-ve-xem-phim-do-an-tot-nghiep-27420.htm#Download
 
 https://www.vertabelo.com/blog/a-database-model-for-a-movie-theater-reservation-system/
+
+tên phim, thời gian chiếu, phòng chiếu, chỗ ngồi
