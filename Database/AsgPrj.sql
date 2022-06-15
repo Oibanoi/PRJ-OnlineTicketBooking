@@ -1,13 +1,16 @@
 create database [PRJSU2022]
 
 use [PRJSU2022]
+drop table [User]
 create table [User](
 UserID int primary key,
+[password] varchar(20),
 [name] varchar(50),
 email varchar(50),
 sex binary,
 [address] varchar(50),
-[phonenumber] varchar(20)
+[phonenumber] varchar(20),
+[Role] int
 );
 
 create table [Movie](
@@ -46,7 +49,7 @@ foreign key ([SID]) references [Schedule]([SID]),
 [Status] binary,
 primary key([SID],SeatID)
 );
-
+drop table [cart]
 create table [cart](
 [SID] int,
 SeatID int,

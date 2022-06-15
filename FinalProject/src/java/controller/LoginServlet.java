@@ -3,19 +3,25 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
+package controller;
 
+import dal.DAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.User;
 
 /**
  *
  * @author Huu
  */
-public class BaseController extends HttpServlet {
+@WebServlet(name="LoginServlet", urlPatterns={"/login"})
+public class LoginServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -32,10 +38,10 @@ public class BaseController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet BaseController</title>");  
+            out.println("<title>Servlet LoginServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet BaseController at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet LoginServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -52,7 +58,7 @@ public class BaseController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        request.getRequestDispatcher("login.jsp").forward(request, response);
     } 
 
     /** 
@@ -65,7 +71,21 @@ public class BaseController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        String u=request.getParameter("user");
+        String p=request.getParameter("pass");
+        DAO d=new DAO();
+        User a=d.check(u, p);
+        HttpSession session=request.getSession();
+        if (a==null)
+        {
+            request.setAttribute("error", "username or password invalid");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+        }
+        else
+        {
+            session.setAttribute("account", a);
+            request.getRequestDispatcher("home.jsp").forward(request, response);
+        }
     }
 
     /** 
