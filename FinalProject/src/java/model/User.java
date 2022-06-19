@@ -18,22 +18,22 @@ public class User {
 //[phonenumber] varchar(20),
 //[Role] int
 //);
-    private int userid,role;
+    private int role;
     private String password,name,email,address,phonenumber;
     private boolean sex;
 
+    public User(int role, String password, String name) {
+        this.role = role;
+        this.password = password;
+        this.name = name;
+    }
+    
     public User(String password, String name) {
         this.password = password;
         this.name = name;
     }
 
-    public int getUserid() {
-        return userid;
-    }
-
-    public void setUserid(int userid) {
-        this.userid = userid;
-    }
+   
 
     public int getRole() {
         return role;
@@ -57,7 +57,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" + "userid=" + userid + ", role=" + role + ", password=" + password + ", name=" + name + ", email=" + email + ", address=" + address + ", phonenumber=" + phonenumber + ", sex=" + sex + '}';
+        return "User{" + " role=" + role + ", password=" + password + ", name=" + name + ", email=" + email + ", address=" + address + ", phonenumber=" + phonenumber + ", sex=" + sex + '}';
     }
 
     public void setName(String name) {
@@ -96,8 +96,7 @@ public class User {
         this.sex = sex;
     }
 
-    public User(int userid, int role, String password, String name, String email, String address, String phonenumber, boolean sex) {
-        this.userid = userid;
+    public User(int role, String password, String name, String email, String address, String phonenumber, boolean sex) {
         this.role = role;
         this.password = password;
         this.name = name;

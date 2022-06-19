@@ -5,6 +5,7 @@
 
 package controller;
 
+import dal.DAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,6 +13,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.User;
 
 /**
  *
@@ -55,7 +57,7 @@ public class SignUpServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-         request.getRequestDispatcher("login.jsp").forward(request, response);
+         request.getRequestDispatcher("signup.jsp").forward(request, response);
     } 
 
     /** 
@@ -68,7 +70,26 @@ public class SignUpServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        String user=request.getParameter("username");
+        String email=request.getParameter("email");
+        String address=request.getParameter("address");
+        String number=request.getParameter("number");
+        String pass=request.getParameter("pass");
+        String gender=request.getParameter("gender");
+        boolean sex=true;
+        if (gender.equals("female")) sex=false;
+        DAO d=new DAO();
+        User a=d.getUserByName(user);
+        if (a==null)
+        {
+            User b=new User(0, pass, user, email, address, number, sex);
+            d.insert(b);
+            response.sendRedirect("home.jsp");
+        }else{
+            request.setAttribute("error", "Name "+ user +" have been used");
+                request.getRequestDispatcher("signup.jsp").forward(request, response);
+        }
+        
     }
 
     /** 
