@@ -13,15 +13,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import model.User;
+import java.util.List;
+import model.Movie;
 
 /**
  *
  * @author Huu
  */
-@WebServlet(name="LoginServlet", urlPatterns={"/login"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(name="ListFilm", urlPatterns={"/list"})
+public class ListFilm extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -38,10 +38,10 @@ public class LoginServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");  
+            out.println("<title>Servlet ListFilm</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet ListFilm at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,7 +58,11 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.getRequestDispatcher("login.jsp").forward(request, response);
+        DAO d=new DAO();
+            
+        List<Movie> list=d.getAllMovie();
+        request.setAttribute("data", list);
+        request.getRequestDispatcher("home.jsp").forward(request, response);
     } 
 
     /** 
@@ -71,22 +75,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String u=request.getParameter("user");
-        String p=request.getParameter("pass");
-        DAO d=new DAO();
-        User a=d.check(u, p);
-        HttpSession session=request.getSession();
-        if (a==null)
-        {
-            request.setAttribute("error", "username or password invalid");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
-        }
-        else
-        {
-            session.setAttribute("account", a);
-            response.sendRedirect("list");
-            //request.getRequestDispatcher("list").forward(request, response);
-        }
+        processRequest(request, response);
     }
 
     /** 

@@ -124,21 +124,22 @@ public class DAO extends DBContext {
         }
         return null;
     }
-//    public List<Movie> getAllMovie(){
-//        List<Movie> list = new ArrayList<>();
-//        String sql = "select * from Categories";
-//        try {
-//            PreparedStatement st = connection.prepareStatement(sql);
-//            ResultSet rs = st.executeQuery();
-//            while (rs.next()) {
-//                Category c = new Category(rs.getInt("id"), rs.getString("name"), rs.getString("describe"));
-//                list.add(c);
-//            }
-//        } catch (SQLException e) {
-//            System.out.println(e);
-//        }
-//        return list;
-//    }
+    public List<Movie> getAllMovie(){
+        List<Movie> list = new ArrayList<>();
+        String sql = "select * from Movie";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Movie d=new Movie(rs.getString("FilmID"), rs.getString("Information"),rs.getString("status"), rs.getString("image"), 
+                        rs.getInt("HotLevel"), rs.getFloat("Price"), rs.getFloat("Duration"), rs.getDate("Publish_date"));
+                list.add(d);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
     public static void main(String[] args) {
         DAO d = new DAO();
         d.insert(new Movie("1", "qwer", "qre", "qre", 4, 3, 4, Date.valueOf("2022-06-20") ));

@@ -13,6 +13,47 @@
         <title>home</title>
         <link rel="stylesheet" href="./assets/css/style.css"/>
         <script src="./add/ckeditor/ckeditor.js"></script>
+        <style>
+            #wrapper{
+                font-family: arial;
+                margin-left: 10%;
+                margin-right: 10%;
+            }
+            h3{
+                text-align: left;
+                color: blue;
+            }
+            ul{
+                list-style: none;
+            }
+            li.movie{
+                width: 25%;
+                text-align: center;
+                float: left;
+                margin: 25px;
+                border: 2px solid chocolate;
+                border-radius: 20px;
+            }
+            li img{
+                width: 90%;
+                height: 90%;
+            }
+            li a{
+                text-decoration: none;
+            }
+            li:hover{
+                background: bisque;
+            }
+            p{
+                margin: 5px;
+                color: blue;
+                font-size: 12px;
+            }
+            .old{
+                text-decoration: line-through;
+                color: red;
+            }
+        </style>
     </head>
     <body>
         <c:set var="ad" value="${sessionScope.account}"/>
@@ -28,11 +69,11 @@
                     Hello ${ad.name}              
                     <a style="color: white;text-decoration: none" href="logout" >Đăng xuất</a>
                     <c:if test="${ad.role==1}">
-                    <a style="color: white;text-decoration: none" href="addfilm" >Thêm phim</a>
+                        <a style="color: white;text-decoration: none" href="addfilm" >Thêm phim</a>
                     </c:if>
                 </div>
             </c:if>
-            
+
 
         </div>
         <div id="header">
@@ -45,20 +86,19 @@
 
         </div>
         <div id="slider">
-            
+
         </div>
         <div id="content">
+            
             <ul>
-                <c:forEach items="${requestScope.products}" var="p">
-                   <li>
-                    <a href="#"></a>
-                    <img src="${p.image}" />
-                    <p>${p.name}</p>
-                    <p>Gia goc: <span class="old">${(p.price*3)}</span>VND</p>
-                    <p>Gia ban:${p.price}VND</p>
-                </li> 
+                <c:forEach items="${requestScope.data}" var="p">
+                    <li class="movie">
+                        
+                        <img src="movie/image?name=${p.image}" width="100" height="200" />
+                        <p>${p.filmID}</p>
+                    </li> 
                 </c:forEach>
-                
+
             </ul>
         </div>
         <div id="footer">

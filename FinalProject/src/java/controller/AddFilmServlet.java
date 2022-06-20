@@ -21,6 +21,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Date;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Properties;
 import model.Movie;
 import model.User;
@@ -115,8 +116,12 @@ public class AddFilmServlet extends HttpServlet {
             Movie c=new Movie(id, detail, status, image, hot, price, duration, publ);
             DAO d=new DAO();
             d.insert(c);
-            out.println("Complete");
-            out.print(c.toString());
+            
+        List<Movie> list=d.getAllMovie();
+        request.setAttribute("data", list);
+        request.getRequestDispatcher("home.jsp").forward(request, response);
+            //out.println("Complete");
+            //out.print(c.toString());
             //response.sendRedirect("home.jsp");
                     
         }catch(NumberFormatException e){
