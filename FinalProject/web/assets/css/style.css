@@ -7,7 +7,7 @@
     height: 30px;
     background-color: black;
     width: 100%;
-    top:0;    
+    top:0;
     position: fixed;
     z-index: 1;
 }
@@ -31,18 +31,18 @@
     position: fixed;
     top: 36.5px;
     width: 100%;
-    z-index: 1;        
+    z-index: 1;
     line-height: 36.5px;
     margin-top: -6.5px;
 }
 #nav{
-    list-style-type: none;    
+    list-style-type: none;
     display: inline-block;
 }
 #nav > li{
     display: inline-block;
     position: relative;
-    
+
 }
 #nav > li > a{
     color: black;
@@ -56,6 +56,7 @@
     background-color: #ccc;
 }
 #slider{
+    max-width: 800px;
     position: relative;
     margin-top: 66.5px;
     padding-top: 50%;
@@ -66,4 +67,105 @@
     color: white;
     padding-top: 3px;
     font-size: 20px;
+}
+.slider-frame{
+
+    margin-top: 69.5px;
+    overflow: hidden;
+    height: 560px;
+    width: 1920px;
+}
+
+@-webkit-keyframes slide_animation{
+    0% {
+        left:0px;
+    }
+    10% {
+        left:0px;
+    }
+    20% {
+        left:1920px;
+    }
+    30% {
+        left:1920px;
+    }
+    40% {
+        left: 3840px;
+    }
+    50% {
+        left: 3840px;
+    }
+    60% {
+        left: 1920px;
+    }
+    70% {
+        left: 1920px;
+    }
+    80% {
+        left: 0px;
+    }
+    90% {
+        left: 0px
+    }
+    100% {
+        left: 0px
+    }
+}
+
+
+.slide-images{
+    width: 5760px;
+    height:560px;
+    margin: 0 0 0 -3840px;
+    position: relative;
+    -webkit-animation-name: slide_animation;
+    -webkit-animation-duration: 33s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-play-state: running;
+}
+
+.img-container{
+    height: 560px;
+    width: 1920px;
+    position: relative;
+    float: left;
+}
+#wrapper{
+    font-family: arial;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+h3{
+    text-align: left;
+    color: blue;
+}
+ul{
+    list-style: none;
+}
+li.movie{
+    width: 25%;
+    text-align: center;
+    float: left;
+    margin: 25px;
+    border: 2px solid chocolate;
+    border-radius: 20px;
+}
+li img{
+    width: 90%;
+    height: 90%;
+}
+li a{
+    text-decoration: none;
+}
+li:hover{
+    background: bisque;
+}
+p{
+    margin: 5px;
+    color: blue;
+    font-size: 12px;
+}
+.old{
+    text-decoration: line-through;
+    color: red;
 }

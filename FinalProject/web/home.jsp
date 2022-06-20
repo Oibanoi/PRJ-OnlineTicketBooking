@@ -13,47 +13,7 @@
         <title>home</title>
         <link rel="stylesheet" href="./assets/css/style.css"/>
         <script src="./add/ckeditor/ckeditor.js"></script>
-        <style>
-            #wrapper{
-                font-family: arial;
-                margin-left: 10%;
-                margin-right: 10%;
-            }
-            h3{
-                text-align: left;
-                color: blue;
-            }
-            ul{
-                list-style: none;
-            }
-            li.movie{
-                width: 25%;
-                text-align: center;
-                float: left;
-                margin: 25px;
-                border: 2px solid chocolate;
-                border-radius: 20px;
-            }
-            li img{
-                width: 90%;
-                height: 90%;
-            }
-            li a{
-                text-decoration: none;
-            }
-            li:hover{
-                background: bisque;
-            }
-            p{
-                margin: 5px;
-                color: blue;
-                font-size: 12px;
-            }
-            .old{
-                text-decoration: line-through;
-                color: red;
-            }
-        </style>
+        
     </head>
     <body>
         <c:set var="ad" value="${sessionScope.account}"/>
@@ -85,15 +45,25 @@
             </ul>
 
         </div>
-        <div id="slider">
-
+        <div class="slider-frame">
+            <div class="slide-images">
+                <div class="img-container">
+                    <img src="./assets/images/emvatrinh.jpg">
+                </div>
+                <div class="img-container">
+                    <img src="./assets/images/minion.jpg">
+                </div>
+                <div class="img-container">
+                    <img src="./assets/images/sathu.jpg">
+                </div>
+            </div>
         </div>
         <div id="content">
-            
+
             <ul>
                 <c:forEach items="${requestScope.data}" var="p">
                     <li class="movie">
-                        
+
                         <img src="movie/image?name=${p.image}" width="100" height="200" />
                         <p>${p.filmID}</p>
                     </li> 
