@@ -5,10 +5,10 @@
 
 package controller;
 
+import dal.DAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,8 +19,7 @@ import model.User;
  *
  * @author Huu
  */
-@WebServlet(name="LogoutServlet", urlPatterns={"/logout"})
-public class LogoutServlet extends HttpServlet {
+public class ChangeServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,10 +36,10 @@ public class LogoutServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LogoutServlet</title>");  
+            out.println("<title>Servlet ChangeServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LogoutServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet ChangeServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,15 +56,19 @@ public class LogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        HttpSession session=request.getSession();
-        User a=(User) session.getAttribute("account");
-        if (a!=null)
-        {
-            session.removeAttribute("account");
-            request.getRequestDispatcher("home.jsp").forward(request, response);
+        String id_raw=request.getParameter("id");
+        DAO d=new DAO();
+        int id;
+        try{
+        id=Integer.parseInt(id_raw);
+            User c=d.getUserById(id);
+            PrintWriter out = response.getWriter();
+            
+            request.setAttribute("acc", c);
+            request.getRequestDispatcher("changein4.jsp").forward(request, response);
+        }catch(NumberFormatException e){
+            
         }
-        else
-            response.sendRedirect("list");
     } 
 
     /** 
@@ -78,7 +81,28 @@ public class LogoutServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        String user=request.getParameter("username");
+        String email=request.getParameter("email");
+        String address=request.getParameter("address");
+        String number=request.getParameter("number");
+        String id_raw=request.getParameter("id");
+        int id;
+        DAO d=new DAO();
+        HttpSession session=request.getSession();
+        try{
+            id=Integer.parseInt(id_raw);
+            User c=d.getUserById(id);
+            c.setAddress(address);
+            c.setName(user);
+            c.setEmail(email);
+            c.setPhonenumber(number);
+            d.update(c);
+            session.setAttribute("account", c);
+            response.sendRedirect("list");
+        }catch(IOException e){
+            
+        }
+        
     }
 
     /** 

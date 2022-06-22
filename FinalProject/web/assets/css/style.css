@@ -72,8 +72,11 @@
 
     margin-top: 69.5px;
     overflow: hidden;
-    height: 560px;
-    width: 1920px;
+    
+    
+     max-width: 1500px;
+    
+    height: auto;
 }
 
 @-webkit-keyframes slide_animation{
@@ -84,22 +87,22 @@
         left:0px;
     }
     20% {
-        left:1920px;
+        left:1500px;
     }
     30% {
-        left:1920px;
+        left:1500px;
     }
     40% {
-        left: 3840px;
+        left: 3000px;
     }
     50% {
-        left: 3840px;
+        left: 3000px;
     }
     60% {
-        left: 1920px;
+        left: 1500px;
     }
     70% {
-        left: 1920px;
+        left: 1500px;
     }
     80% {
         left: 0px;
@@ -114,9 +117,8 @@
 
 
 .slide-images{
-    width: 5760px;
-    height:560px;
-    margin: 0 0 0 -3840px;
+    max-width: 4500px;
+    margin: 0 0 0 -3000px;
     position: relative;
     -webkit-animation-name: slide_animation;
     -webkit-animation-duration: 33s;
@@ -125,8 +127,8 @@
 }
 
 .img-container{
-    height: 560px;
-    width: 1920px;
+    max-width: 1500px;
+    height: auto;
     position: relative;
     float: left;
 }
@@ -150,17 +152,17 @@ li.movie{
     border: 2px solid chocolate;
     border-radius: 20px;
 }
-li img{
+.movie img{
     width: 90%;
     height: 90%;
 }
 li a{
     text-decoration: none;
 }
-li:hover{
+.movie:hover{
     background: bisque;
 }
-p{
+.movie p{
     margin: 5px;
     color: blue;
     font-size: 12px;
@@ -168,4 +170,8 @@ p{
 .old{
     text-decoration: line-through;
     color: red;
+}
+.content-heading{
+    text-align: center;
+    padding-top: 15px;
 }

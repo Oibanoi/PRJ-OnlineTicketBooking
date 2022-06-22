@@ -31,7 +31,7 @@ public class DAO extends DBContext {
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 // User b=new User
-                User a = new User(rs.getInt("role"), rs.getString("password"), rs.getString("name"));
+                User a = new User(rs.getInt("role"), rs.getInt("userID"), rs.getString("password"), rs.getString("name"));
                 return a;
             }
         } catch (SQLException e) {
@@ -124,14 +124,48 @@ public class DAO extends DBContext {
         }
         return null;
     }
-    public List<Movie> getAllMovie(){
+
+    public User getUserById(int id) {
+        String sql = "select * FROM [dbo].[User] where UserID=?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                User c = new User(rs.getInt("role"), rs.getString("password"), rs.getString("name"), rs.getString("email"), rs.getString("address"), rs.getString("phonenumber"), rs.getInt("userID"));
+                return c;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public Movie getMovieById(String id) {
+        String sql = "select * FROM [dbo].[Movie] where FilmID=?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                Movie c = new Movie(rs.getString("FilmID"), rs.getString("Information"), rs.getString("status"),
+                        rs.getString("image"), rs.getInt("HotLevel"), rs.getFloat("Price"), rs.getFloat("Duration"), rs.getDate("Publish_date"));
+                return c;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public List<Movie> getAllMovie() {
         List<Movie> list = new ArrayList<>();
         String sql = "select * from Movie";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Movie d=new Movie(rs.getString("FilmID"), rs.getString("Information"),rs.getString("status"), rs.getString("image"), 
+                Movie d = new Movie(rs.getString("FilmID"), rs.getString("Information"), rs.getString("status"), rs.getString("image"),
                         rs.getInt("HotLevel"), rs.getFloat("Price"), rs.getFloat("Duration"), rs.getDate("Publish_date"));
                 list.add(d);
             }
@@ -140,8 +174,31 @@ public class DAO extends DBContext {
         }
         return list;
     }
+
+    public void update(User c) {
+        String sql = "UPDATE [dbo].[User]\n"
+                + "   SET [name] = ?\n"
+                + "      ,[email] = ?\n"
+                + "      ,[address] = ?\n"
+                + "      ,[phonenumber] = ?\n"
+                + " WHERE UserID=?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, c.getName());
+            st.setString(2, c.getEmail());
+            st.setString(3, c.getAddress());
+            st.setString(4, c.getPhonenumber());
+            st.setInt(5, c.getUserID());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
     public static void main(String[] args) {
         DAO d = new DAO();
-        d.insert(new Movie("1", "qwer", "qre", "qre", 4, 3, 4, Date.valueOf("2022-06-20") ));
+        User duy=d.getUserById(5);
+       // duy.setAddress(address);
+        System.out.println(d.getUserById(5));
     }
 }

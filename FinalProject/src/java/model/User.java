@@ -18,7 +18,15 @@ public class User {
 //[phonenumber] varchar(20),
 //[Role] int
 //);
-    private int role;
+    private int role,userID;
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
     private String password,name,email,address,phonenumber;
     private boolean sex;
 
@@ -26,6 +34,23 @@ public class User {
         this.role = role;
         this.password = password;
         this.name = name;
+    }
+
+    public User(int role, int userID, String password, String name) {
+        this.role = role;
+        this.userID = userID;
+        this.password = password;
+        this.name = name;
+    }
+
+    public User(int role, String password, String name, String email, String address, String phonenumber, int userID) {
+        this.role = role;
+        this.password = password;
+        this.name = name;
+        this.email = email;
+        this.address = address;
+        this.phonenumber = phonenumber;
+        this.userID = userID;
     }
     
     public User(String password, String name) {
@@ -57,8 +82,10 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" + " role=" + role + ", password=" + password + ", name=" + name + ", email=" + email + ", address=" + address + ", phonenumber=" + phonenumber + ", sex=" + sex + '}';
+        return "User{" + "role=" + role + ", userID=" + userID + ", password=" + password + ", name=" + name + ", email=" + email + ", address=" + address + ", phonenumber=" + phonenumber + ", sex=" + sex + '}';
     }
+
+  
 
     public void setName(String name) {
         this.name = name;

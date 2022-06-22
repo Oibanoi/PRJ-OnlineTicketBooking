@@ -4,9 +4,25 @@
         <servlet-name>BaseController</servlet-name>
         <servlet-class>BaseController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewServlet</servlet-name>
+        <servlet-class>controller.ViewServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChangeServlet</servlet-name>
+        <servlet-class>controller.ChangeServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>BaseController</servlet-name>
         <url-pattern>/base</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewServlet</servlet-name>
+        <url-pattern>/view</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangeServlet</servlet-name>
+        <url-pattern>/changein4</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

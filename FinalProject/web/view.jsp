@@ -1,6 +1,6 @@
 <%-- 
-    Document   : home
-    Created on : Jun 15, 2022, 10:01:55 AM
+    Document   : view
+    Created on : Jun 21, 2022, 9:41:05 PM
     Author     : Huu
 --%>
 
@@ -10,10 +10,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>home</title>
+        <title>Chi tiết phim</title>
         <link rel="stylesheet" href="./assets/css/style.css"/>
-        <script src="./add/ckeditor/ckeditor.js"></script>
-
     </head>
     <body>
         <c:set var="ad" value="${sessionScope.account}"/>
@@ -26,11 +24,7 @@
             </c:if>
             <c:if test="${ad!=null}">
                 <div id="user-info">
-                    Hello ${ad.name}   
-                    <ul class="subnav">
-                        <li><a href="changein4?id=${ad.userID}">Trang cá nhân</a></li>
-                        <li><a href="">Đổi mật khẩu</a></li>
-                    </ul>
+                    Hello ${ad.name}              
                     <a style="color: white;text-decoration: none" href="logout" >Đăng xuất</a>
                     <c:if test="${ad.role==1}">
                         <a style="color: white;text-decoration: none" href="addfilm" >Thêm phim</a>
@@ -47,34 +41,17 @@
                 <li><a href="#" >Thông tin và ưu đãi</a></li>
                 <li><a href="#" >Giá vé</a></li>
             </ul>
-
-        </div>
-        <div class="slider-frame">
-            <div class="slide-images">
-                <div class="img-container">
-                    <img src="./assets/images/emvatrinh.jpg">
-                </div>
-                <div class="img-container">
-                    <img src="./assets/images/minion.jpg">
-                </div>
-                <div class="img-container">
-                    <img src="./assets/images/sathu.jpg">
-                </div>
-            </div>
-        </div>
-        <div class="content">
-            <h2 class="content-heading">Phim đang chiếu</h2>
-            <ul>
-                <c:forEach items="${requestScope.data}" var="p">
-                    <li class="movie">
-                        <a href="view?id=${p.filmID}"><img src="movie/image?name=${p.image}" width="100" height="200" /></a>
-                        
-                        <p>${p.filmID}</p>
-                    </li> 
-                </c:forEach>
-
-            </ul
         </div>
         
+        <c:set var="p" value="${requestScope.movie}"/>
+
+        <h1>${p.filmID}</h1>
+        <div style="width: 30%; float: left;">
+            <img src="movie/image?name=${p.image}" width="auto" height="auto" style="display: block;margin-left: auto; margin-right: auto;"/>
+        </div>
+
+        <div style="width: 70%; float: right">
+            ${p.information}
+        </div>
     </body>
 </html>
