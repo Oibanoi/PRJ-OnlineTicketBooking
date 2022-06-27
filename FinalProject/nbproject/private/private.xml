@@ -17,7 +17,11 @@
             <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/web/addfilm.jsp</file>
             <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/controller/AddFilmServlet.java</file>
             <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/web/changein4.jsp</file>
+            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/dal/DBContext.java</file>
             <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/controller/ChangeServlet.java</file>
+            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/web/login.jsp</file>
+            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/web/index.html</file>
+            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/web/view.jsp</file>
             <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/model/Movie.java</file>
             <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/controller/SignUpServlet.java</file>
         </group>

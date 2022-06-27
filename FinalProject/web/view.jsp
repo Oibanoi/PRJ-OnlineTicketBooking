@@ -45,7 +45,7 @@
         
         <c:set var="p" value="${requestScope.movie}"/>
 
-        <h1>${p.filmID}</h1>
+        <h1 style="margin-top: 66px">${p.filmID}</h1>
         <div style="width: 30%; float: left;">
             <img src="movie/image?name=${p.image}" width="auto" height="auto" style="display: block;margin-left: auto; margin-right: auto;"/>
         </div>

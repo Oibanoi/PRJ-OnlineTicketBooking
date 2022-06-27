@@ -195,10 +195,41 @@ public class DAO extends DBContext {
         }
     }
 
+    public void update(int id, String pass) {
+        String sql = "UPDATE [dbo].[User]\n"
+                + "   SET [password] = ?\n"
+                + " WHERE UserID=?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, pass);
+            st.setInt(2, id);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public int getUserIDByUserAndPass(String user, String pass) {
+        String sql = "select * FROM [dbo].[User] where name=? and password=?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, user);
+            st.setString(2, pass);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("userID");
+
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return -1;
+    }
+
     public static void main(String[] args) {
         DAO d = new DAO();
-        User duy=d.getUserById(5);
-       // duy.setAddress(address);
+        User duy = d.getUserById(5);
+        // duy.setAddress(address);
         System.out.println(d.getUserById(5));
     }
 }

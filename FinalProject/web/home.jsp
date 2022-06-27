@@ -26,11 +26,8 @@
             </c:if>
             <c:if test="${ad!=null}">
                 <div id="user-info">
-                    Hello ${ad.name}   
-                    <ul class="subnav">
-                        <li><a href="changein4?id=${ad.userID}">Trang cá nhân</a></li>
-                        <li><a href="">Đổi mật khẩu</a></li>
-                    </ul>
+                    Hello <a href="changein4?id=${ad.userID}" style="padding: 0 10px">${ad.name}   </a>         
+                    <a href="changepass" style="padding: 0 10px">Đổi mật khẩu</a>
                     <a style="color: white;text-decoration: none" href="logout" >Đăng xuất</a>
                     <c:if test="${ad.role==1}">
                         <a style="color: white;text-decoration: none" href="addfilm" >Thêm phim</a>

@@ -12,6 +12,10 @@
         <servlet-name>ChangeServlet</servlet-name>
         <servlet-class>controller.ChangeServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ChangePassServlet</servlet-name>
+        <servlet-class>controller.ChangePassServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>BaseController</servlet-name>
         <url-pattern>/base</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>ChangeServlet</servlet-name>
         <url-pattern>/changein4</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangePassServlet</servlet-name>
+        <url-pattern>/changepass</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
