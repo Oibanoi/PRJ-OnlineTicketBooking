@@ -19,9 +19,9 @@
             <h3 style="text-align: center">${requestScope.error}</h3>
             <form action="changepass" method="POST">
                 <div class="txt_field">
-                    <input type="text" name="user" required>
+                    <input type="text" name="user" disabled value="${sessionScope.account.name} " required>
                     <span></span>
-                    <label>Username</label>
+                    
                 </div>
                 <div class="txt_field">
                     <input type="password" name="oldpass" required>
