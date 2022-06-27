@@ -67,6 +67,7 @@
         </div>
         <div id="content">
             <h2 class="content-heading">Phim đang chiếu</h2>
+            <h3>${requestScope.error}</h3>
             <div class="filmlist">
                 <c:forEach items="${requestScope.data}" var="p">
                     <div class="movie">

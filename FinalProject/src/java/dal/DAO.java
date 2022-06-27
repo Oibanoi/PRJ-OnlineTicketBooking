@@ -225,11 +225,38 @@ public class DAO extends DBContext {
         }
         return -1;
     }
-
+    public List<Movie> search(String name)
+    {
+        List<Movie> list=new ArrayList<>();
+        String sql="select * FROM [dbo].[Movie] where 1=1 ";
+        if (name!=null && !name.equals(""))
+            sql+=" and FilmID like '%"+name+"%' or Information like '%"+name+"%'";
+        
+        try{
+             PreparedStatement st=connection.prepareStatement(sql);
+            ResultSet rs=st.executeQuery();
+            while (rs.next())
+            {
+                Movie p=new Movie();
+                p.setDuration(rs.getFloat("Duration"));
+                p.setFilmID(rs.getString("FilmID"));
+                p.setHotLevel(rs.getInt("HotLevel"));
+                p.setImage(rs.getString("image"));
+                p.setInformation(rs.getString("Information"));
+                p.setPrice(rs.getFloat("Price"));
+                p.setPublish_date(rs.getDate("Publish_date"));
+                p.setStatus(rs.getString("status"));
+                list.add(p);
+            }
+        }catch(SQLException e){
+            
+        }
+        return list;
+    }
     public static void main(String[] args) {
         DAO d = new DAO();
-        User duy = d.getUserById(5);
-        // duy.setAddress(address);
-        System.out.println(d.getUserById(5));
+       List<Movie> list=d.search("a");
+        for (Movie i:list)
+           System.out.println(i.toString());
     }
 }
