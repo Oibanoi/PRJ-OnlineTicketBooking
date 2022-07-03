@@ -4,25 +4,30 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/controller/ViewServlet.java</file>
+            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/filter/HomeFilter.java</file>
+            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/controller/MovieServlet.java</file>
             <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/dal/DAO.java</file>
-            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/controller/LoginServlet.java</file>
-            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/web/assets/css/style.css</file>
+            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/controller/ChangePassServlet.java</file>
             <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/web/WEB-INF/web.xml</file>
-            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/web/assets/css/stylesignup.css</file>
             <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/web/home.jsp</file>
             <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/web/signup.jsp</file>
-            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/controller/LogoutServlet.java</file>
-            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/model/User.java</file>
+            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/controller/SearchServlet.java</file>
             <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/controller/ListFilm.java</file>
             <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/web/addfilm.jsp</file>
             <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/controller/AddFilmServlet.java</file>
             <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/web/changein4.jsp</file>
-            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/dal/DBContext.java</file>
-            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/controller/ChangeServlet.java</file>
+            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/web/changepass.jsp</file>
             <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/web/login.jsp</file>
             <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/web/index.html</file>
-            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/web/view.jsp</file>
             <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/model/Movie.java</file>
+            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/controller/LoginServlet.java</file>
+            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/web/assets/css/style.css</file>
+            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/web/assets/css/stylesignup.css</file>
+            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/controller/LogoutServlet.java</file>
+            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/model/User.java</file>
+            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/dal/DBContext.java</file>
+            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/controller/ChangeServlet.java</file>
+            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/web/view.jsp</file>
             <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/controller/SignUpServlet.java</file>
         </group>
     </open-files>

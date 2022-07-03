@@ -11,6 +11,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 import model.Movie;
 
 /**
@@ -61,16 +62,18 @@ public class ViewServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
         String id = request.getParameter("id");
-        DAO d=new DAO();
-        Movie c=d.getMovieById(id);
-        if (c!=null)
-        {
-        request.setAttribute("movie", c);
-        request.getRequestDispatcher("view.jsp").forward(request, response);            
-        }
-        else{
+        DAO d = new DAO();
+        Movie c = d.getMovieById(id);
+        List<String> listday = d.getListDay();
+        if (c != null) {
+            request.setAttribute("listday", listday);
+            request.setAttribute("movie", c);
+            request.getRequestDispatcher("view.jsp").forward(request, response);
+        } else {
             PrintWriter out = response.getWriter();
             out.print(id);
+            response.sendRedirect("list");
+            //request.getRequestDispatcher("list").forward(request, response);
         }
     }
 

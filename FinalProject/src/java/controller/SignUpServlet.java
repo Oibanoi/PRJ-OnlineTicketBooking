@@ -84,7 +84,7 @@ public class SignUpServlet extends HttpServlet {
         {
             User b=new User(0, pass, user, email, address, number, sex);
             d.insert(b);
-            response.sendRedirect("home.jsp");
+            response.sendRedirect("list");
         }else{
             request.setAttribute("error", "Name "+ user +" have been used");
                 request.getRequestDispatcher("signup.jsp").forward(request, response);

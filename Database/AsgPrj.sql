@@ -7,14 +7,14 @@ UserID int primary key identity,
 [password] varchar(20),
 [name] varchar(50),
 email varchar(50),
-sex binary,
+sex bit,
 [address] varchar(50),
 [phonenumber] varchar(20),
 [Role] int
 );
 drop table [Movie]
 create table [Movie](
-FilmID nvarchar(200) primary key,
+FilmID nvarchar(2000) primary key,
 HotLevel int ,
 Information nvarchar(500),
 Price float,
@@ -25,13 +25,19 @@ Duration float,
 );
 drop table [Schedule]
 create table [Schedule](
-[SID] int primary key,
-FilmID nvarchar(200),
+[SID] int primary key identity,
+[day] date,
 StartTime varchar(20),
 EndTime varchar(20),
-foreign key (FilmID) references [Movie](FilmID)
 );
-
+drop table [Movie-Schedule]
+create table [Movie-Schedule](
+FilmID nvarchar(2000),
+[SID] int,
+foreign key (FilmID) references [Movie](FilmID),
+foreign key ([SID]) references [Schedule]([SID]),
+primary key(FilmID,[SID])
+);
 create table [Room](
 RoomID int primary key,
 [Status] binary

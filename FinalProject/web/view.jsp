@@ -44,18 +44,42 @@
             </ul>
         </div>
         <div class="content">
-            <c:set var="p" value="${requestScope.movie}"/>
+            <div class="moviein4">
+                <c:set var="p" value="${requestScope.movie}"/>
 
-        <h1 style="margin-top: 66px; text-align: center">${p.filmID}</h1>
-        <div style="width: 30%; float: left;">
-            <img src="movie/image?name=${p.image}" width="auto" height="auto" style="display: block;margin-left: auto; margin-right: auto;"/>
+                <h1 style="margin-top: 66px; text-align: center">${p.filmID}</h1>
+                <div style="width: 30%; float: left;text-align: center">
+                    <img src="movie/image?name=${p.image}" width="auto" height="auto" style="display: block;margin-left: auto; margin-right: auto;"/>
+                    <br/>
+                    <c:if test="${ad.role==1}">
+                        <a href="addschedulefilm?id=${p.filmID}" style="text-align: center;text-decoration: none">Thêm Phòng chiếu</a>
+                    </c:if>
+
+                </div>
+
+                <div style="width: 55%; float: left">
+                    ${p.information}
+                </div>
+            </div>
+                <div class="break">
+                    
+                </div>
+            <div class="schedule">
+                
+                <c:forEach items="${requestScope.listday}" var="ld">
+                    <p>Ngày:  ${ld}</p>
+                    <c:forEach items="${p.schedules}" var="s">
+                        <c:if test="${s.day==ld}">
+                            <p>Giờ chiếu: <a href="booking">${s.startTime}-${s.endTime}</a> </p>
+                      </c:if>
+                        
+                    </c:forEach>
+                           <br/> 
+                </c:forEach>
+
+            </div>
         </div>
 
-        <div style="width: 55%; float: left">
-            ${p.information}
-        </div>
-        </div>
-        
         <footer class="footer">
             <div class="container">
                 <div class="row">

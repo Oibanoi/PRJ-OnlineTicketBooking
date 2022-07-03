@@ -14,6 +14,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.File;
 import java.nio.file.Files;
@@ -69,7 +70,11 @@ public class AddFilmServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        HttpSession session=request.getSession();
+        User a=(User) session.getAttribute("account");
+        if (a.getRole()!=0)
         request.getRequestDispatcher("addfilm.jsp").forward(request, response);
+        else response.sendRedirect("list");//request.getRequestDispatcher("list").forward(request, response);
     } 
 
     /** 

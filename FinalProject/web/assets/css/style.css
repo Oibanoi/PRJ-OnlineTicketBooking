@@ -301,5 +301,16 @@ ul{
     background-color: #ffffff;
 }
 .content{
-    height: 500px;
+    height: 900px;
+}
+.moviein4{
+    height: 550px;
+}
+.break{
+    border-top: black groove;
+    width: 90%;
+    margin: 0 auto;
+}
+.schedule{
+    text-align: center;
 }

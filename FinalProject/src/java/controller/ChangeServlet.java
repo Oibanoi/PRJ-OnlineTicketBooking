@@ -56,7 +56,12 @@ public class ChangeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String id_raw=request.getParameter("id");
+        HttpSession session=request.getSession();
+        if  (session.getAttribute("account")==null)
+            response.sendRedirect("list");
+        else
+        {
+            String id_raw=request.getParameter("id");
         DAO d=new DAO();
         int id;
         try{
@@ -69,6 +74,8 @@ public class ChangeServlet extends HttpServlet {
         }catch(NumberFormatException e){
             
         }
+        }
+        
     } 
 
     /** 

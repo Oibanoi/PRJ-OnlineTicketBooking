@@ -5,20 +5,18 @@
 
 package controller;
 
-import dal.DAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 /**
  *
  * @author Huu
  */
-public class ChangePassServlet extends HttpServlet {
+public class BookingServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -35,10 +33,10 @@ public class ChangePassServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ChangePassServlet</title>");  
+            out.println("<title>Servlet BookingServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ChangePassServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet BookingServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -55,11 +53,7 @@ public class ChangePassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        HttpSession session=request.getSession();
-        if  (session.getAttribute("account")==null)
-            response.sendRedirect("list");
-        else
-        request.getRequestDispatcher("changepass.jsp").forward(request, response);
+        request.getRequestDispatcher("booking.jsp").forward(request, response);
     } 
 
     /** 
@@ -72,23 +66,7 @@ public class ChangePassServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String user=request.getParameter("user");
-        String oldp=request.getParameter("oldpass");
-        String newp=request.getParameter("newpass");
-        DAO d=new DAO();
-        int id=d.getUserIDByUserAndPass(user, oldp);
-        if (id==-1)
-        {
-            request.setAttribute("error", "username or password invalid");
-            request.getRequestDispatcher("changepass.jsp").forward(request, response);
-        }
-        else
-        {
-            d.update(id, newp);
-            HttpSession session =request.getSession();
-            session.removeAttribute("account");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
-        }
+        processRequest(request, response);
     }
 
     /** 

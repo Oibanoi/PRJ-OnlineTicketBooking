@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Movie;
+import model.Schedule;
 import model.User;
 
 /**
@@ -109,8 +110,43 @@ public class DAO extends DBContext {
 
     }
 
+    public List<String> getListDay() {
+        String sql = "SELECT distinct day\n"
+                + "  FROM [PRJSU2022].[dbo].[Schedule]";
+        List<String> list = new ArrayList<>();
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next())
+            {
+                list.add(rs.getDate("day").toString());
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
+    public void insertFilmWithSchedule(Movie e) {
+        try {
+
+            String sql1 = "INSERT INTO [dbo].[Movie-Schedule]\n"
+                    + "     VALUES\n"
+                    + "           (?\n"
+                    + "           ,?)";
+            for (Schedule i : e.getSchedules()) {
+                PreparedStatement st1 = connection.prepareStatement(sql1);
+                st1.setString(1, e.getFilmID());
+                st1.setInt(2, i.getSID());
+                st1.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
+
     public User getUserByName(String name) {
-        String sql = "select * from User where name=?";
+        String sql = "select * from [dbo].[User] where name=?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, name);
@@ -147,10 +183,50 @@ public class DAO extends DBContext {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, id);
             ResultSet rs = st.executeQuery();
+            List<Schedule> list = new ArrayList<>();
             if (rs.next()) {
                 Movie c = new Movie(rs.getString("FilmID"), rs.getString("Information"), rs.getString("status"),
                         rs.getString("image"), rs.getInt("HotLevel"), rs.getFloat("Price"), rs.getFloat("Duration"), rs.getDate("Publish_date"));
+                String sql1 = "select * from [dbo].[Movie-Schedule] where FilmID=?";
+                try {
+                    PreparedStatement st1 = connection.prepareStatement(sql1);
+                    st1.setString(1, id);
+                    ResultSet rs1 = st1.executeQuery();
+
+                    while (rs1.next()) {
+                        Schedule s = getScheduleById(rs1.getInt("SID"));
+//                        Schedule s=new Schedule();
+//                        s.setDay(rs1.getDate("day"));
+//                        s.setEndTime(rs1.getString("EndTime"));
+//                        s.setSID(rs1.getInt("SID"));
+//                        s.setStartTime(rs1.getString("StartTime"));
+                        list.add(s);
+                    }
+                } catch (SQLException e) {
+                    System.out.println("asdf" + e);
+                }
+                c.setSchedules(list);
                 return c;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public Schedule getScheduleById(int id) {
+        String sql = "select * from [dbo].[Schedule] where SID=?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                Schedule s = new Schedule();
+                s.setDay(rs.getDate("day"));
+                s.setEndTime(rs.getString("EndTime"));
+                s.setSID(id);
+                s.setStartTime(rs.getString("StartTime"));
+                return s;
             }
         } catch (SQLException e) {
             System.out.println(e);
@@ -167,6 +243,43 @@ public class DAO extends DBContext {
             while (rs.next()) {
                 Movie d = new Movie(rs.getString("FilmID"), rs.getString("Information"), rs.getString("status"), rs.getString("image"),
                         rs.getInt("HotLevel"), rs.getFloat("Price"), rs.getFloat("Duration"), rs.getDate("Publish_date"));
+                list.add(d);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
+    public Schedule getSchedule(String starttime, String day) {
+        String sql = "select * from [dbo].[Schedule] where day=? and StartTime=?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(2, starttime);
+            st.setString(1, day);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                Schedule c = new Schedule();
+                c.setDay(rs.getDate("day"));
+                c.setEndTime(rs.getString("EndTime"));
+                c.setSID(rs.getInt("SID"));
+                c.setStartTime(rs.getString("StartTime"));
+                return c;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public List<Schedule> getAllSchedule() {
+        List<Schedule> list = new ArrayList<>();
+        String sql = "select * from [dbo].[Schedule] where day='2022-07-17'";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Schedule d = new Schedule(rs.getInt("SID"), rs.getString("StartTime"), rs.getString("EndTime"));
                 list.add(d);
             }
         } catch (SQLException e) {
@@ -225,19 +338,19 @@ public class DAO extends DBContext {
         }
         return -1;
     }
-    public List<Movie> search(String name)
-    {
-        List<Movie> list=new ArrayList<>();
-        String sql="select * FROM [dbo].[Movie] where 1=1 ";
-        if (name!=null && !name.equals(""))
-            sql+=" and FilmID like '%"+name+"%' or Information like '%"+name+"%'";
-        
-        try{
-             PreparedStatement st=connection.prepareStatement(sql);
-            ResultSet rs=st.executeQuery();
-            while (rs.next())
-            {
-                Movie p=new Movie();
+
+    public List<Movie> search(String name) {
+        List<Movie> list = new ArrayList<>();
+        String sql = "select * FROM [dbo].[Movie] where 1=1 ";
+        if (name != null && !name.equals("")) {
+            sql += " and FilmID like '%" + name + "%' or Information like '%" + name + "%'";
+        }
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Movie p = new Movie();
                 p.setDuration(rs.getFloat("Duration"));
                 p.setFilmID(rs.getString("FilmID"));
                 p.setHotLevel(rs.getInt("HotLevel"));
@@ -248,15 +361,18 @@ public class DAO extends DBContext {
                 p.setStatus(rs.getString("status"));
                 list.add(p);
             }
-        }catch(SQLException e){
-            
+        } catch (SQLException e) {
+
         }
         return list;
     }
+
     public static void main(String[] args) {
         DAO d = new DAO();
-       List<Movie> list=d.search("a");
-        for (Movie i:list)
-           System.out.println(i.toString());
+        List<String> list=d.getListDay();
+        for(String i: list)
+            
+
+        System.out.println(i);
     }
 }
