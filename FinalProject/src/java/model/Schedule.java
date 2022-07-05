@@ -62,5 +62,10 @@ public class Schedule {
     public void setEndTime(String EndTime) {
         this.EndTime = EndTime;
     }
+
+    @Override
+    public String toString() {
+        return "Schedule{" + "StartTime=" + StartTime + ", EndTime=" + EndTime + ", day=" + day + '}';
+    }
     
 }

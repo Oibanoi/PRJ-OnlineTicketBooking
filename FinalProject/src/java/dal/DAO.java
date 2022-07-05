@@ -117,8 +117,7 @@ public class DAO extends DBContext {
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
-            while (rs.next())
-            {
+            while (rs.next()) {
                 list.add(rs.getDate("day").toString());
             }
         } catch (SQLException e) {
@@ -367,12 +366,54 @@ public class DAO extends DBContext {
         return list;
     }
 
+    public void addSeat() {
+        try {
+            for (int i = 1; i <= 8; i++) {
+                String sql = "INSERT INTO [dbo].[seat]\n"
+                        + "           ([Position])\n"
+                        + "     VALUES\n"
+                        + "           ('F" + i + "')";
+                PreparedStatement st = connection.prepareStatement(sql);
+                st.executeUpdate();
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+    }
+
+    public void addSeatSchedule() {
+        try {
+            String sql = "SELECT [SID]\n"
+                    + "  FROM [dbo].[Schedule]";
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int sid = rs.getInt("SID");
+                String sql1 = "SELECT [Position] FROM [dbo].[seat]";
+                PreparedStatement st1 = connection.prepareStatement(sql1);
+                ResultSet rs1 = st1.executeQuery();
+                while (rs1.next()) {
+                    String seat = rs1.getString("Position");
+                    String sql2 = "INSERT INTO [dbo].[seatSchedule]\n"
+                            + "     VALUES\n"
+                            + "           (?\n"
+                            + "           ,?\n"
+                            + "           ,?)";
+                    PreparedStatement st2 = connection.prepareStatement(sql2);
+                    st2.setInt(1, sid);
+                    st2.setString(2, seat);
+                    st2.setBoolean(3, true);
+                    st2.executeUpdate();;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
     public static void main(String[] args) {
         DAO d = new DAO();
-        List<String> list=d.getListDay();
-        for(String i: list)
-            
-
-        System.out.println(i);
+        d.addSeatSchedule();
     }
 }

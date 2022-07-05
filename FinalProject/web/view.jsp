@@ -49,7 +49,7 @@
 
                 <h1 style="margin-top: 66px; text-align: center">${p.filmID}</h1>
                 <div style="width: 30%; float: left;text-align: center">
-                    <img src="movie/image?name=${p.image}" width="auto" height="auto" style="display: block;margin-left: auto; margin-right: auto;"/>
+                    <img src="movie/image?name=${p.image}" width="auto" height="auto" style="display: block;margin-left: auto; margin-right: auto;height: 336px;width: 228px;"/>
                     <br/>
                     <c:if test="${ad.role==1}">
                         <a href="addschedulefilm?id=${p.filmID}" style="text-align: center;text-decoration: none">Thêm Phòng chiếu</a>
@@ -70,7 +70,7 @@
                     <p>Ngày:  ${ld}</p>
                     <c:forEach items="${p.schedules}" var="s">
                         <c:if test="${s.day==ld}">
-                            <p>Giờ chiếu: <a href="booking">${s.startTime}-${s.endTime}</a> </p>
+                            <p>Giờ chiếu: <a href="booking?film=${p.filmID}&sid=${s.SID}">${s.startTime}-${s.endTime}</a> </p>
                       </c:if>
                         
                     </c:forEach>

@@ -38,24 +38,18 @@ foreign key (FilmID) references [Movie](FilmID),
 foreign key ([SID]) references [Schedule]([SID]),
 primary key(FilmID,[SID])
 );
-create table [Room](
-RoomID int primary key,
-[Status] binary
-);
-
+drop table [seat]
 create table [seat](
-RoomID int,
-foreign key (RoomID) references [Room](RoomID),
-SeatID int primary key
+Position nvarchar(10) primary key,
 );
 drop table [seatSchedule]
 create table [seatSchedule](
 [SID] int,
-SeatID int,
-foreign key (SeatID) references [seat](SeatID),
+Position nvarchar(10),
+foreign key (Position) references [seat](Position),
 foreign key ([SID]) references [Schedule]([SID]),
-[Status] binary,
-primary key([SID],SeatID)
+[Status] bit,
+primary key([SID],Position)
 );
 drop table [cart]
 create table [cart](

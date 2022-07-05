@@ -5,12 +5,15 @@
 
 package controller;
 
+import dal.DAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.Movie;
+import model.Schedule;
 
 /**
  *
@@ -53,6 +56,17 @@ public class BookingServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+        String filmID=request.getParameter("film");
+        String sid_raw=request.getParameter("sid");
+        int sid=Integer.parseInt(sid_raw);
+        DAO d=new DAO();
+        Schedule sc=d.getScheduleById(sid);
+        Movie e=d.getMovieById(filmID);
+        request.setAttribute("sc", sc);
+        request.setAttribute("movie", e);
         request.getRequestDispatcher("booking.jsp").forward(request, response);
     } 
 
@@ -66,7 +80,12 @@ public class BookingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        String sid_raw=request.getParameter("sid");
+        String[] seats=request.getParameterValues("seat");
+        PrintWriter out = response.getWriter();
+        out.println(sid_raw);
+        for (String i:seats)
+            out.println(i);
     }
 
     /** 
