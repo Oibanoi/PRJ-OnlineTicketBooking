@@ -18,12 +18,12 @@
     <body>
         <c:set var="ad" value="${sessionScope.account}"/>
         <div id="user">
-                        <div class="search-bar">
-                            <form action="search" class="search-form">
-                                <input type="text" placeholder="search film" name="film">
-                                <button type="submit"><img src="./assets/images/free-search-icon-2911-thumb.png" /></button>
-                            </form>
-                        </div>
+            <div class="search-bar">
+                <form action="search" class="search-form">
+                    <input type="text" placeholder="search film" name="film">
+                    <button type="submit"><img src="./assets/images/free-search-icon-2911-thumb.png" /></button>
+                </form>
+            </div>
             <c:if test="${ad==null}">
                 <ul id="user-nav">
                     <li><a href="login" >Đăng nhập</a></li>
@@ -37,6 +37,7 @@
                     <a style="color: white;text-decoration: none" href="logout" >Đăng xuất</a>
                     <c:if test="${ad.role==1}">
                         <a style="color: white;text-decoration: none" href="addfilm" >Thêm phim</a>
+                        <a style="color: white;text-decoration: none" href="deletefilm" >Xóa phim</a>
                     </c:if>
                 </div>
             </c:if>
@@ -45,26 +46,28 @@
         </div>
         <div id="header">
             <ul id="nav">
-                <li><a href="#" >Phim hot</a></li>
-                <li><a href="#" >Lịch chiếu phim</a></li>
-                <li><a href="#" >Thông tin và ưu đãi</a></li>
-                <li><a href="#" >Giá vé</a></li>
+                <li><a href="list" >Phim hot</a></li>
+                <li><a href="list" >Lịch chiếu phim</a></li>
+                <li><a href="list" >Thông tin và ưu đãi</a></li>
+                <li><a href="list" >Giá vé</a></li>
+                <li><a href="order" >Giỏ hàng</a></li>
             </ul>
 
         </div>
-        <div class="slider-frame">
-            <div class="slide-images">
-                <div class="img-container">
-                    <img src="./assets/images/emvatrinh.jpg">
+       
+                <div class="slider-frame">
+                    <div class="slide-images">
+                        <div class="img-container">
+                            <img src="./assets/images/emvatrinh.jpg">
+                        </div>
+                        <div class="img-container">
+                            <img src="./assets/images/minion.jpg">
+                        </div>
+                        <div class="img-container">
+                            <img src="./assets/images/sathu.jpg">
+                        </div>
+                    </div>
                 </div>
-                <div class="img-container">
-                    <img src="./assets/images/minion.jpg">
-                </div>
-                <div class="img-container">
-                    <img src="./assets/images/sathu.jpg">
-                </div>
-            </div>
-        </div>
         <div id="content">
             <h2 class="content-heading">Phim đang chiếu</h2>
             <h3>${requestScope.error}</h3>

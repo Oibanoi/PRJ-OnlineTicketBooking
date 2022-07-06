@@ -12,16 +12,14 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.util.List;
-import model.Cart;
-import model.User;
+import model.Movie;
 
 /**
  *
  * @author Huu
  */
-public class OrderServlet extends HttpServlet {
+public class DeletefilmServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -38,10 +36,10 @@ public class OrderServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet OrderServlet</title>");  
+            out.println("<title>Servlet DeletefilmServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet OrderServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet DeletefilmServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,26 +56,13 @@ public class OrderServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
-        HttpSession session = request.getSession();
-        User a = (User) session.getAttribute("account");
-        if (a == null) {
-            response.sendRedirect("login");
-        } else {
-            DAO d=new DAO();
-            List<Cart> list=d.getCartById(a.getUserID());
-            float sum=0;
-            for (Cart i:list)
-            {
-                sum+=i.getPrice();
-                //out.println(i);
-            }
-            a=d.getUserById(a.getUserID());
-            request.setAttribute("user", a);
-            request.setAttribute("carts", list);
-            request.setAttribute("sum", sum);
-            request.getRequestDispatcher("order.jsp").forward(request, response);
-        }
+        DAO d=new DAO();
+         request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+        String filmid=request.getParameter("id");
+        d.deleteFilm(filmid);
+        response.sendRedirect("list");
     } 
 
     /** 
@@ -90,30 +75,7 @@ public class OrderServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String uid=request.getParameter("uid");
-        DAO d=new DAO();
-        PrintWriter out = response.getWriter();
-        String s=d.checkPosition(Integer.parseInt(uid));
-        if (s!=null)
-        {
-            request.setAttribute("failed", s);
-            
-            request.getRequestDispatcher("order.jsp").forward(request, response);
-        }
-        else
-        {
-            if (d.getCartById(Integer.parseInt(uid)).isEmpty())
-            {
-                out.print("cart empty");
-            }
-            else
-            {
-                
-            d.makeOrder(Integer.parseInt(uid));
-            
-            out.print("booking complete");
-            }
-        }
+        processRequest(request, response);
     }
 
     /** 

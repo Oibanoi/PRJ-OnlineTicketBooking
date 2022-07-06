@@ -36,11 +36,13 @@
         </div>
         <div id="header">
             <ul id="nav">
-                <li><a href="#" >Phim hot</a></li>
-                <li><a href="#" >Lịch chiếu phim</a></li>
-                <li><a href="#" >Thông tin và ưu đãi</a></li>
-                <li><a href="#" >Giá vé</a></li>
+                <li><a href="list" >Phim hot</a></li>
+                <li><a href="list" >Lịch chiếu phim</a></li>
+                <li><a href="list" >Thông tin và ưu đãi</a></li>
+                <li><a href="list" >Giá vé</a></li>
+                <li><a href="order" >Giỏ hàng</a></li>
             </ul>
+
         </div>
         <div class="content" style="margin-top: 65px">
             <div style="height: 200px"></div>
@@ -82,12 +84,15 @@
             <c:set var="er" value="${requestScope.failed}"/>
             <c:if test="${er!=null}">
                 <h1>Vị trí ${er} đã được đặt</h1>
+                <a href="order">Trở lại giỏ hàng</a>
+            </c:if>
+            <c:if test="${er==null}">
+                <form action="order" method="POST">
+                    <input type="text" name="uid" value="${user.userID}" hidden><!-- comment -->
+                    <input type="submit" value="Thanh toán">
+                </form>
             </c:if>
 
-            <form action="order" method="POST">
-                <input type="text" name="uid" value="${user.userID}" hidden><!-- comment -->
-                <input type="submit" value="Thanh toán">
-            </form>
         </div>
 
 

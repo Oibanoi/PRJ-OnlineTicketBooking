@@ -48,6 +48,10 @@
         <servlet-name>OrderlineServlet</servlet-name>
         <servlet-class>controller.OrderlineServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeletefilmServlet</servlet-name>
+        <servlet-class>controller.DeletefilmServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>BaseController</servlet-name>
         <url-pattern>/base</url-pattern>
@@ -91,6 +95,10 @@
     <servlet-mapping>
         <servlet-name>OrderlineServlet</servlet-name>
         <url-pattern>/orderline</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeletefilmServlet</servlet-name>
+        <url-pattern>/deletefilm</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

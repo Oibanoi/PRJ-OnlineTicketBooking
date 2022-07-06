@@ -37,11 +37,13 @@
         </div>
         <div id="header">
             <ul id="nav">
-                <li><a href="#" >Phim hot</a></li>
-                <li><a href="#" >Lịch chiếu phim</a></li>
-                <li><a href="#" >Thông tin và ưu đãi</a></li>
-                <li><a href="#" >Giá vé</a></li>
+                <li><a href="list" >Phim hot</a></li>
+                <li><a href="list" >Lịch chiếu phim</a></li>
+                <li><a href="list" >Thông tin và ưu đãi</a></li>
+                <li><a href="list" >Giá vé</a></li>
+                <li><a href="order" >Giỏ hàng</a></li>
             </ul>
+
         </div>
         <div class="content">
             <div class="moviein4">
@@ -53,6 +55,7 @@
                     <br/>
                     <c:if test="${ad.role==1}">
                         <a href="addschedulefilm?id=${p.filmID}" style="text-align: center;text-decoration: none">Thêm Phòng chiếu</a>
+                        <a href="deletefilm?id=${p.filmID}">Xoa phim</a>
                     </c:if>
 
                 </div>

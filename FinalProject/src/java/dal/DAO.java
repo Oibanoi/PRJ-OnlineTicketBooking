@@ -591,8 +591,7 @@ public class DAO extends DBContext {
             st.setInt(1, sid);
             st.setString(2, film);
             ResultSet rs = st.executeQuery();
-            while (rs.next())
-            {
+            while (rs.next()) {
                 list.add(rs.getString("Position"));
             }
         } catch (SQLException e) {
@@ -601,8 +600,30 @@ public class DAO extends DBContext {
         return list;
     }
 
+    public void deleteFilm(String id) {
+        String sql1="DELETE FROM [dbo].[seatSchedule]\n" +
+"      WHERE FilmID=?";
+        String sql2="DELETE FROM [dbo].[Movie-Schedule]\n" +
+"      WHERE FilmID=?";
+        String sql = "DELETE FROM [dbo].[Movie]\n"
+                + "      WHERE FilmID=?";
+        try {
+            PreparedStatement st1 = connection.prepareStatement(sql1);
+            st1.setString(1, id);
+            st1.executeUpdate();
+            PreparedStatement st2 = connection.prepareStatement(sql2);
+            st2.setString(1, id);
+            st2.executeUpdate();
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, id);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
     public static void main(String[] args) {
         DAO d = new DAO();
-        d.makeOrder(3);
+        d.deleteFilm("THẾ GIỚI KHỦNG LONG: LÃNH ĐỊA");
     }
 }
