@@ -46,10 +46,12 @@ drop table [seatSchedule]
 create table [seatSchedule](
 [SID] int,
 Position nvarchar(10),
+FilmID nvarchar(2000),
+foreign key (FilmID) references [Movie](FilmID),
 foreign key (Position) references [seat](Position),
 foreign key ([SID]) references [Schedule]([SID]),
 [Status] bit,
-primary key([SID],Position)
+primary key([SID],Position,FilmID)
 );
 drop table [cart]
 create table [cart](
@@ -62,3 +64,12 @@ foreign key (UserID) references [User](UserID),
 primary key([SID],SeatID,UserID)
 );
 select * from [User] where name='admin' and password='admin'
+drop table [cart]
+create table [cart](
+OID int identity primary key,
+UserID int,
+FilmID nvarchar(2000),
+[SID] int,
+Position nvarchar(10),
+price float
+);

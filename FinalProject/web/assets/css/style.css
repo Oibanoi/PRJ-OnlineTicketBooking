@@ -138,6 +138,7 @@ body{
     position: relative;
     float: left;
 }
+
 #wrapper{
     font-family: arial;
     margin-left: 10%;
@@ -302,6 +303,7 @@ ul{
 }
 .content{
     height: 900px;
+    text-align: center;
 }
 .moviein4{
     height: 550px;
@@ -312,5 +314,23 @@ ul{
     margin: 0 auto;
 }
 .schedule{
+    text-align: center;
+}
+.info{
+    width: 80%;
+    color: black;
+}
+.info h1{
+    text-align: center;
+    color: black;
+    font-size: 20px;
+}
+.deletecart{
+    width: 5%;
+    float: right;
+    margin-top: 60px;
+    margin-right: 65px;
+}
+#user-infor{
     text-align: center;
 }

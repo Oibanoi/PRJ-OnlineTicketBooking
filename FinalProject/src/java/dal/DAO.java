@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.Cart;
 import model.Movie;
 import model.Schedule;
 import model.User;
@@ -382,38 +383,226 @@ public class DAO extends DBContext {
 
     }
 
-    public void addSeatSchedule() {
+    public void addCart(Cart c) {
         try {
-            String sql = "SELECT [SID]\n"
-                    + "  FROM [dbo].[Schedule]";
-            PreparedStatement st = connection.prepareStatement(sql);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                int sid = rs.getInt("SID");
-                String sql1 = "SELECT [Position] FROM [dbo].[seat]";
-                PreparedStatement st1 = connection.prepareStatement(sql1);
-                ResultSet rs1 = st1.executeQuery();
-                while (rs1.next()) {
-                    String seat = rs1.getString("Position");
-                    String sql2 = "INSERT INTO [dbo].[seatSchedule]\n"
-                            + "     VALUES\n"
-                            + "           (?\n"
-                            + "           ,?\n"
-                            + "           ,?)";
-                    PreparedStatement st2 = connection.prepareStatement(sql2);
-                    st2.setInt(1, sid);
-                    st2.setString(2, seat);
-                    st2.setBoolean(3, true);
-                    st2.executeUpdate();;
-                }
+            String sql = "INSERT INTO [dbo].[cart]\n"
+                    + "           ([UserID]\n"
+                    + "           ,[FilmID]\n"
+                    + "           ,[SID]\n"
+                    + "           ,[Position]\n"
+                    + "           ,[price])\n"
+                    + "     VALUES\n"
+                    + "           (?\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,?)";
+            for (int i = 0; i < c.getPositions().size(); i++) {
+                PreparedStatement st = connection.prepareStatement(sql);
+                st.setInt(1, c.getUserID());
+                st.setString(2, c.getFilmID());
+                st.setInt(3, c.getSch().getSID());
+                st.setString(4, c.getPositions().get(i));
+                st.setDouble(5, c.getPrice());
+                st.executeUpdate();
             }
         } catch (SQLException e) {
             System.out.println(e);
         }
     }
 
+    public void addSeatSchedule() {
+        List<Movie> movie = getAllMovie();
+        try {
+            for (Movie m : movie) {
+                String sql = "SELECT [SID]\n"
+                        + "  FROM [dbo].[Schedule]";
+                PreparedStatement st = connection.prepareStatement(sql);
+                ResultSet rs = st.executeQuery();
+                while (rs.next()) {
+                    int sid = rs.getInt("SID");
+                    String sql1 = "SELECT [Position] FROM [dbo].[seat]";
+                    PreparedStatement st1 = connection.prepareStatement(sql1);
+                    ResultSet rs1 = st1.executeQuery();
+                    while (rs1.next()) {
+                        String seat = rs1.getString("Position");
+                        String sql2 = "INSERT INTO [dbo].[seatSchedule]\n"
+                                + "     VALUES\n"
+                                + "           (?\n"
+                                + "           ,?\n"
+                                + "           ,?\n"
+                                + "           ,?)";
+                        PreparedStatement st2 = connection.prepareStatement(sql2);
+                        st2.setInt(1, sid);
+                        st2.setString(2, seat);
+                        st2.setBoolean(4, true);
+                        st2.setString(3, m.getFilmID());
+                        st2.executeUpdate();;
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public List<Cart> getCartById(int id) {
+        List<Cart> list = new ArrayList<>();
+        String sql = "select distinct SID,FilmID from cart where UserID=?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int sid = rs.getInt("SID");
+                String film = rs.getString("FilmID");
+                String sql1 = "select * from cart where UserID=? and SID=? and FilmID=?";
+                PreparedStatement st1 = connection.prepareStatement(sql1);
+                st1.setInt(1, id);
+                st1.setInt(2, sid);
+                st1.setString(3, film);
+                ResultSet rs1 = st1.executeQuery();
+                List<String> positions = new ArrayList<>();
+                Cart c = new Cart();
+                while (rs1.next()) {
+                    if (positions.isEmpty()) {
+                        c.setOID(rs1.getInt("OID"));
+                        c.setUserID(rs1.getInt("UserID"));
+                        c.setFilmID(rs1.getString("FilmID"));
+                        c.setSch(getScheduleById(rs1.getInt("SID")));
+                        positions.add(rs1.getString("Position"));
+                        c.setPriceCart(rs1.getFloat("price"));
+                    } else {
+                        positions.add(rs1.getString("Position"));
+                    }
+
+                }
+                c.setPositions(positions);
+                list.add(c);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
+    public Cart getCartByOID(int oid) {
+        String sql = "select * from cart where OID=?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, oid);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                Cart c = new Cart();
+                c.setFilmID(rs.getString("FilmID"));
+                c.setUserID(rs.getInt("UserID"));
+                c.setSch(getScheduleById(rs.getInt("SID")));
+                return c;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public void deleteCart(int uid, int sid, String fid) {
+        String sql = "DELETE FROM [dbo].[cart]\n"
+                + "      WHERE SID=? and FilmID=? and UserID=?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, sid);
+            st.setInt(3, uid);
+            st.setString(2, fid);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public boolean getStatusPosition(int sid, String posit, String film) {
+        String sql = "SELECT *\n"
+                + "  FROM [PRJSU2022].[dbo].[seatSchedule] where SID=? and Position=? and FilmID=?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, sid);
+            st.setString(2, posit);
+            st.setString(3, film);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getBoolean("status");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+
+    public String checkPosition(int uid) {
+        List<Cart> list = getCartById(uid);
+        for (Cart i : list) {
+
+            for (String p : i.getPositions()) {
+                if (!getStatusPosition(i.getSch().getSID(), p, i.getFilmID())) {
+                    return p;
+                }
+            }
+        }
+        return null;
+    }
+
+    public void makeOrder(int uid) {
+        List<Cart> list = getCartById(uid);
+        for (Cart i : list) {
+
+            for (String p : i.getPositions()) {
+                String sql = "UPDATE [dbo].[seatSchedule]\n"
+                        + "   SET [Status] = 0\n"
+                        + " WHERE SID=? and Position=? and FilmID=?";
+                try {
+                    PreparedStatement st = connection.prepareStatement(sql);
+                    st.setInt(1, i.getSch().getSID());
+                    st.setString(2, p);
+                    st.setString(3, i.getFilmID());
+                    st.executeUpdate();
+                } catch (SQLException e) {
+                    System.out.println(e);
+                }
+
+            }
+        }
+        String sql = "DELETE FROM [dbo].[cart]\n"
+                + "      WHERE UserID=?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, uid);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public List<String> getPositionBooked(int sid, String film) {
+        List<String> list = new ArrayList<>();
+        String sql = "SELECT *\n"
+                + "  FROM [PRJSU2022].[dbo].[seatSchedule] where SID=? and FilmID=? and Status=0";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, sid);
+            st.setString(2, film);
+            ResultSet rs = st.executeQuery();
+            while (rs.next())
+            {
+                list.add(rs.getString("Position"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
     public static void main(String[] args) {
         DAO d = new DAO();
-        d.addSeatSchedule();
+        d.makeOrder(3);
     }
 }

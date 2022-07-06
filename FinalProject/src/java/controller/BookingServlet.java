@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller;
 
 import dal.DAO;
@@ -12,42 +11,52 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import model.Movie;
+import model.Cart;
 import model.Schedule;
+import model.User;
 
 /**
  *
  * @author Huu
  */
 public class BookingServlet extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet BookingServlet</title>");  
+            out.println("<title>Servlet BookingServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet BookingServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet BookingServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    } 
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -55,23 +64,26 @@ public class BookingServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
-        String filmID=request.getParameter("film");
-        String sid_raw=request.getParameter("sid");
-        int sid=Integer.parseInt(sid_raw);
-        DAO d=new DAO();
-        Schedule sc=d.getScheduleById(sid);
-        Movie e=d.getMovieById(filmID);
+        String filmID = request.getParameter("film");
+        String sid_raw = request.getParameter("sid");
+        int sid = Integer.parseInt(sid_raw);
+        DAO d = new DAO();
+        Schedule sc = d.getScheduleById(sid);
+        Movie e = d.getMovieById(filmID);
+        List<String> booked=d.getPositionBooked(sid,filmID);
+        request.setAttribute("booked", booked);
         request.setAttribute("sc", sc);
         request.setAttribute("movie", e);
         request.getRequestDispatcher("booking.jsp").forward(request, response);
-    } 
+    }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -79,17 +91,42 @@ public class BookingServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        String sid_raw=request.getParameter("sid");
-        String[] seats=request.getParameterValues("seat");
-        PrintWriter out = response.getWriter();
-        out.println(sid_raw);
-        for (String i:seats)
-            out.println(i);
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        User a = (User) session.getAttribute("account");
+        if (a == null) {
+            response.sendRedirect("login");
+        } else {
+            request.setCharacterEncoding("UTF-8");
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("text/html; charset=UTF-8");
+            String sid_raw = request.getParameter("sid");
+            String[] seats = request.getParameterValues("seat");
+            String price = request.getParameter("price");
+            String name = request.getParameter("film");
+            DAO d = new DAO();
+            Cart o = new Cart();
+            o.setFilmID(name);
+            List<String> positions = new ArrayList<>();
+            for (String i : seats) {
+                positions.add(i);
+            }
+            o.setUserID(a.getUserID());
+            o.setPositions(positions);
+            o.setPrice(Float.parseFloat(price));
+            o.setSch(d.getScheduleById(Integer.parseInt(sid_raw)));
+            
+            d.addCart(o);
+            PrintWriter out = response.getWriter();
+            out.print(o.toString());
+            response.sendRedirect("order");
+        }
+        
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override
