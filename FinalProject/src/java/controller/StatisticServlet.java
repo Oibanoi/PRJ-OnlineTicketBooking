@@ -9,21 +9,11 @@ import dal.DAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.MultipartConfig;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.Part;
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.Date;
-import java.util.Enumeration;
 import java.util.List;
-import java.util.Properties;
 import model.Movie;
 import model.User;
 
@@ -31,9 +21,7 @@ import model.User;
  *
  * @author Huu
  */
-@MultipartConfig
-@WebServlet(name="AddFilmServlet", urlPatterns={"/addfilm"})
-public class AddFilmServlet extends HttpServlet {
+public class StatisticServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -50,10 +38,10 @@ public class AddFilmServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AddFilmServlet</title>");  
+            out.println("<title>Servlet StatisticServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AddFilmServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet StatisticServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -70,11 +58,19 @@ public class AddFilmServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        DAO d=new DAO();
+        float sum=d.getTurnoverOfMonth();
         HttpSession session=request.getSession();
         User a=(User) session.getAttribute("account");
         if (a.getRole()!=0)
-        request.getRequestDispatcher("addfilm.jsp").forward(request, response);
-        else response.sendRedirect("list");//request.getRequestDispatcher("list").forward(request, response);
+            {
+                List<Movie> turnover=d.getAllTurnover();
+                request.setAttribute("list", turnover);
+                request.setAttribute("sum", sum);
+                request.getRequestDispatcher("statistic.jsp").forward(request, response);
+            }
+        
+        else response.sendRedirect("list");
     } 
 
     /** 
@@ -87,52 +83,7 @@ public class AddFilmServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String id=request.getParameter("id");
-        String hot_raw=request.getParameter("hot");
-        String price_raw=request.getParameter("price");
-        String duration_raw=request.getParameter("duration");
-        String detail=request.getParameter("detail");
-        Part part=request.getPart("image");
-        String realpath=request.getServletContext().getRealPath("/imagesweb");
-        String image;
-        File f=new File(" ");
-        image = Paths.get(part.getSubmittedFileName()).getFileName().toString();
-        //String image=request.getParameter("image");
-        if (!Files.exists(Paths.get(realpath)))
-        {
-            Files.createDirectories(Paths.get(realpath));
-        }
-        Properties p=System.getProperties();
-        part.write(realpath+"/"+image);
-        PrintWriter out = response.getWriter();
-        
-        String status=request.getParameter("status");
-        String pldate=request.getParameter("pldate");
-       // PrintWriter out = response.getWriter();
-        //out.print(pldate);
-        int hot;
-        float price, duration;
-        Date publ;
-        try{
-            hot=Integer.parseInt(hot_raw);
-            price=Float.parseFloat(price_raw);
-            duration=Float.parseFloat(duration_raw);
-            publ=Date.valueOf(pldate);
-            Movie c=new Movie(id, detail, status, image, hot, price, duration, publ);
-            DAO d=new DAO();
-            d.insert(c);
-            d.addSeatSchedule(c);
-        List<Movie> list=d.getAllMovie();
-        request.setAttribute("data", list);
-        request.getRequestDispatcher("home.jsp").forward(request, response);
-            //out.println("Complete");
-            //out.print(c.toString());
-            //response.sendRedirect("home.jsp");
-                    
-        }catch(NumberFormatException e){
-            out.print(e);
-        }
-        
+        processRequest(request, response);
     }
 
     /** 

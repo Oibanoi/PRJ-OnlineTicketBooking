@@ -8,6 +8,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import model.Cart;
@@ -234,6 +235,14 @@ public class DAO extends DBContext {
         return null;
     }
 
+    public List<Movie> getListByPage(List<Movie> list, int start, int end) {
+        List<Movie> arr = new ArrayList<>();
+        for (int i = start; i < end; i++) {
+            arr.add(list.get(i));
+        }
+        return arr;
+    }
+
     public List<Movie> getAllMovie() {
         List<Movie> list = new ArrayList<>();
         String sql = "select * from Movie";
@@ -411,6 +420,39 @@ public class DAO extends DBContext {
         }
     }
 
+    public void addSeatSchedule(Movie m) {
+        try {
+            String sql = "SELECT [SID]\n"
+                    + "  FROM [dbo].[Schedule]";
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int sid = rs.getInt("SID");
+                String sql1 = "SELECT [Position] FROM [dbo].[seat]";
+                PreparedStatement st1 = connection.prepareStatement(sql1);
+                ResultSet rs1 = st1.executeQuery();
+                while (rs1.next()) {
+                    String seat = rs1.getString("Position");
+                    String sql2 = "INSERT INTO [dbo].[seatSchedule]\n"
+                            + "     VALUES\n"
+                            + "           (?\n"
+                            + "           ,?\n"
+                            + "           ,?\n"
+                            + "           ,?)";
+                    PreparedStatement st2 = connection.prepareStatement(sql2);
+                    st2.setInt(1, sid);
+                    st2.setString(2, seat);
+                    st2.setBoolean(4, true);
+                    st2.setString(3, m.getFilmID());
+                    st2.executeUpdate();;
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
     public void addSeatSchedule() {
         List<Movie> movie = getAllMovie();
         try {
@@ -559,12 +601,34 @@ public class DAO extends DBContext {
                 String sql = "UPDATE [dbo].[seatSchedule]\n"
                         + "   SET [Status] = 0\n"
                         + " WHERE SID=? and Position=? and FilmID=?";
+                String sql1 = "INSERT INTO [dbo].[bill]\n"
+                        + "           ([UserID]\n"
+                        + "           ,[FilmID]\n"
+                        + "           ,[SID]\n"
+                        + "           ,[Position]\n"
+                        + "           ,[price]\n"
+                        + "           ,[time])\n"
+                        + "     VALUES\n"
+                        + "           (?\n"
+                        + "           ,?\n"
+                        + "           ,?\n"
+                        + "           ,?\n"
+                        + "           ,?\n"
+                        + "           ,?)";
                 try {
                     PreparedStatement st = connection.prepareStatement(sql);
                     st.setInt(1, i.getSch().getSID());
                     st.setString(2, p);
                     st.setString(3, i.getFilmID());
                     st.executeUpdate();
+                    PreparedStatement st1 = connection.prepareStatement(sql1);
+                    st1.setInt(1, uid);
+                    st1.setString(2, i.getFilmID());
+                    st1.setInt(3, i.getSch().getSID());
+                    st1.setString(4, p);
+                    st1.setFloat(5, i.getPrice());
+                    st1.setDate(6, Date.valueOf(LocalDate.now()));
+                    st1.executeUpdate();
                 } catch (SQLException e) {
                     System.out.println(e);
                 }
@@ -601,10 +665,10 @@ public class DAO extends DBContext {
     }
 
     public void deleteFilm(String id) {
-        String sql1="DELETE FROM [dbo].[seatSchedule]\n" +
-"      WHERE FilmID=?";
-        String sql2="DELETE FROM [dbo].[Movie-Schedule]\n" +
-"      WHERE FilmID=?";
+        String sql1 = "DELETE FROM [dbo].[seatSchedule]\n"
+                + "      WHERE FilmID=?";
+        String sql2 = "DELETE FROM [dbo].[Movie-Schedule]\n"
+                + "      WHERE FilmID=?";
         String sql = "DELETE FROM [dbo].[Movie]\n"
                 + "      WHERE FilmID=?";
         try {
@@ -620,6 +684,48 @@ public class DAO extends DBContext {
         } catch (SQLException e) {
             System.out.println(e);
         }
+    }
+
+    public float getTurnoverOfMonth() {
+        float ans = 0;
+        String sql = "select distinct UserID,FilmID,SID,price from bill where time>='2022-7-1' and time<='2022-7-30'";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                ans += rs.getFloat("price");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return ans;
+    }
+
+    public List<Movie> getAllTurnover() {
+        List<Movie> list = getAllMovie();
+        List<Movie> ans = new ArrayList<>();
+        for (Movie i : list) {
+            String sql = "select distinct UserID,FilmID,SID,price from bill where FilmID=?";
+            try {
+                PreparedStatement st = connection.prepareStatement(sql);
+                st.setString(1, i.getFilmID());
+                ResultSet rs=st.executeQuery();
+                float sum=0;
+                while (rs.next())
+                {
+                    sum+=rs.getFloat("price");
+                }
+                if (sum>0)
+                {
+                    i.setSumturnover(sum);
+                    ans.add(i);
+                }
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+
+        }
+        return ans;
     }
 
     public static void main(String[] args) {

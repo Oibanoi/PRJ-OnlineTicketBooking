@@ -61,7 +61,21 @@ public class ListFilm extends HttpServlet {
         DAO d=new DAO();
             
         List<Movie> list=d.getAllMovie();
-        request.setAttribute("data", list);
+        int page,num=6;
+        int sumpage=((list.size()%6==0)?(list.size()/6):(list.size()/6+1));
+        String xpage=request.getParameter("page");
+        if (xpage==null){
+            page=1;
+        }
+        else
+            page=Integer.parseInt(xpage);
+        int start,end;
+        start=(page-1)*num;
+        end=Math.min(page*num, list.size());
+        List<Movie> list1=d.getListByPage(list, start, end);
+        request.setAttribute("data", list1);
+        request.setAttribute("page", page);
+        request.setAttribute("num", sumpage);
         request.getRequestDispatcher("home.jsp").forward(request, response);
     } 
 

@@ -38,6 +38,7 @@
                     <c:if test="${ad.role==1}">
                         <a style="color: white;text-decoration: none" href="addfilm" >Thêm phim</a>
                         <a style="color: white;text-decoration: none" href="deletefilm" >Xóa phim</a>
+                        <a style="color: white;text-decoration: none" href="statistic" >Thống kê</a>
                     </c:if>
                 </div>
             </c:if>
@@ -78,6 +79,17 @@
 
                         <p>${p.filmID}</p>
                     </div> 
+                </c:forEach>
+            </div>
+            <c:set var="page" value="${requestScope.page}"/>
+            <div class="pagination">
+                <c:forEach begin="${1}" end="${requestScope.num}" var="i">
+                    <c:if test="${page==i}">
+                        <a href="list?page=${i}" id="choosed">${i}</a>
+                    </c:if>
+                        <c:if test="${page!=i}">
+                        <a href="list?page=${i}" >${i}</a>
+                    </c:if>
                 </c:forEach>
             </div>
         </div>

@@ -334,3 +334,22 @@ ul{
 #user-infor{
     text-align: center;
 }
+.pagination{
+    text-align: center;
+}
+.pagination a{
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+    padding: 8px 16px;
+}
+.pagination a.active{
+    background-color: #ffcccc;
+}
+.pagination a:hover:not(.active){
+    background-color: #cccccc;
+}
+#choosed{
+    background-color: #ffcccc;
+    background-color: #00cc00
+}

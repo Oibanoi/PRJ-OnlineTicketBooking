@@ -18,12 +18,21 @@ public class Movie {
     private float Price,Duration;
     private Date Publish_date;
     private List<Schedule> schedules=new ArrayList<>();
+    private float sumturnover;
     public Movie() {
     }
 
     @Override
     public String toString() {
         return "Movie{" + "FilmID=" + FilmID + ", Information=" + Information + ", status=" + status + ", image=" + image + ", HotLevel=" + HotLevel + ", Price=" + Price + ", Duration=" + Duration + ", Publish_date=" + Publish_date + ", schedules=" + schedules + '}';
+    }
+
+    public float getSumturnover() {
+        return sumturnover;
+    }
+
+    public void setSumturnover(float sumturnover) {
+        this.sumturnover = sumturnover;
     }
 
  

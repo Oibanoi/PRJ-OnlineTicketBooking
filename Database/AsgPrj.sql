@@ -73,3 +73,13 @@ FilmID nvarchar(2000),
 Position nvarchar(10),
 price float
 );
+
+create table [bill](
+BID int identity primary key,
+UserID int,
+FilmID nvarchar(2000),
+[SID] int,
+Position nvarchar(10),
+price float,
+[time] date
+);
