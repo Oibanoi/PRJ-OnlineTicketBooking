@@ -19,6 +19,24 @@ public class Movie {
     private Date Publish_date;
     private List<Schedule> schedules=new ArrayList<>();
     private float sumturnover;
+    private int male,female;
+
+    public int getMale() {
+        return male;
+    }
+
+    public void setMale(int male) {
+        this.male = male;
+    }
+
+    public int getFemale() {
+        return female;
+    }
+
+    public void setFemale(int female) {
+        this.female = female;
+    }
+    
     public Movie() {
     }
 

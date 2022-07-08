@@ -302,7 +302,7 @@ ul{
     background-color: #ffffff;
 }
 .content{
-    height: 900px;
+    height: 1500px;
     text-align: center;
 }
 .moviein4{
@@ -352,4 +352,11 @@ ul{
 #choosed{
     background-color: #ffcccc;
     background-color: #00cc00
+}
+.chart_movie{
+    height: 450px;
+    width: 25%;
+    text-align: center;
+    margin-top: 60px;
+    padding-left: 100px;
 }

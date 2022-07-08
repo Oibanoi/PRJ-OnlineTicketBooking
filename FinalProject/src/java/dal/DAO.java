@@ -207,6 +207,19 @@ public class DAO extends DBContext {
                     System.out.println("asdf" + e);
                 }
                 c.setSchedules(list);
+                int male=0,female=0;
+                String sqls="select distinct UserID,FilmID,SID from bill where FilmID=?";
+                PreparedStatement sts=connection.prepareStatement(sqls);
+                sts.setString(1, c.getFilmID());
+                ResultSet rss=sts.executeQuery();
+                while (rss.next())
+                {
+                    int uid=rss.getInt("UserID");
+                    if (getUserById(uid).isSex()) female++;
+                    else male++;
+                }
+                c.setFemale(female);
+                c.setMale(male);
                 return c;
             }
         } catch (SQLException e) {
@@ -730,6 +743,6 @@ public class DAO extends DBContext {
 
     public static void main(String[] args) {
         DAO d = new DAO();
-        d.deleteFilm("THẾ GIỚI KHỦNG LONG: LÃNH ĐỊA");
+        d.getMovieById("70K HARRY POTTER VÀ TÙ NHÂN AZKABAN");
     }
 }

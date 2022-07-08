@@ -10,7 +10,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Chi tiết phim</title>
+        <title>Chi tiết phim</title>        
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <link rel="stylesheet" href="./assets/css/style.css"/>
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     </head>
@@ -64,20 +65,27 @@
                     ${p.information}
                 </div>
             </div>
-                <div class="break">
-                    
-                </div>
+            <div class="break">
+
+            </div>
+            <div class="chart_movie">
+                <h2>Sở thích theo giới tính</h2>
+                <canvas id="myChart"></canvas>
+            </div>
+            <div class="break">
+
+            </div>
             <div class="schedule">
-                
+
                 <c:forEach items="${requestScope.listday}" var="ld">
                     <p>Ngày:  ${ld}</p>
                     <c:forEach items="${p.schedules}" var="s">
                         <c:if test="${s.day==ld}">
                             <p>Giờ chiếu: <a href="booking?film=${p.filmID}&sid=${s.SID}">${s.startTime}-${s.endTime}</a> </p>
-                      </c:if>
-                        
+                        </c:if>
+
                     </c:forEach>
-                           <br/> 
+                    <br/> 
                 </c:forEach>
 
             </div>
@@ -126,5 +134,31 @@
                 </div>
             </div>
         </footer>
+                <script>
+            const data = {
+            labels: [
+            'nam','nu'
+            ],
+                    datasets: [{
+                    label: 'My First Dataset',
+                            data: [
+                                ${p.male},${p.female}
+                            ],
+                            backgroundColor: [
+                                    'rgb(255, 99, 132)',
+                                    'rgb(54, 162, 235)',
+                            ],
+                            hoverOffset: 4
+                    }]
+            };
+            const config = {
+            type: 'pie',
+                    data: data,
+            };
+            const myChart = new Chart(
+                    document.getElementById('myChart'),
+                    config
+                    );
+        </script>
     </body>
 </html>
