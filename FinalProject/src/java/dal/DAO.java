@@ -207,16 +207,18 @@ public class DAO extends DBContext {
                     System.out.println("asdf" + e);
                 }
                 c.setSchedules(list);
-                int male=0,female=0;
-                String sqls="select distinct UserID,FilmID,SID from bill where FilmID=?";
-                PreparedStatement sts=connection.prepareStatement(sqls);
+                int male = 0, female = 0;
+                String sqls = "select distinct UserID,FilmID,SID from bill where FilmID=?";
+                PreparedStatement sts = connection.prepareStatement(sqls);
                 sts.setString(1, c.getFilmID());
-                ResultSet rss=sts.executeQuery();
-                while (rss.next())
-                {
-                    int uid=rss.getInt("UserID");
-                    if (getUserById(uid).isSex()) female++;
-                    else male++;
+                ResultSet rss = sts.executeQuery();
+                while (rss.next()) {
+                    int uid = rss.getInt("UserID");
+                    if (getUserById(uid).isSex()) {
+                        female++;
+                    } else {
+                        male++;
+                    }
                 }
                 c.setFemale(female);
                 c.setMale(male);
@@ -256,11 +258,31 @@ public class DAO extends DBContext {
         return arr;
     }
 
-    public List<Movie> getAllMovie() {
+    public List<Movie> getAllMovieNotPublish() {
+
         List<Movie> list = new ArrayList<>();
-        String sql = "select * from Movie";
+        String sql = "select * from Movie where [Publish_date]>?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, LocalDate.now().toString());
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Movie d = new Movie(rs.getString("FilmID"), rs.getString("Information"), rs.getString("status"), rs.getString("image"),
+                        rs.getInt("HotLevel"), rs.getFloat("Price"), rs.getFloat("Duration"), rs.getDate("Publish_date"));
+                list.add(d);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
+    public List<Movie> getAllMovie() {
+        List<Movie> list = new ArrayList<>();
+        String sql = "select * from Movie where [Publish_date]<=?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, LocalDate.now().toString());
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Movie d = new Movie(rs.getString("FilmID"), rs.getString("Information"), rs.getString("status"), rs.getString("image"),
@@ -722,14 +744,62 @@ public class DAO extends DBContext {
             try {
                 PreparedStatement st = connection.prepareStatement(sql);
                 st.setString(1, i.getFilmID());
-                ResultSet rs=st.executeQuery();
-                float sum=0;
-                while (rs.next())
-                {
-                    sum+=rs.getFloat("price");
+                ResultSet rs = st.executeQuery();
+                float sum = 0;
+                while (rs.next()) {
+                    sum += rs.getFloat("price");
                 }
-                if (sum>0)
-                {
+                if (sum > 0) {
+                    i.setSumturnover(sum);
+                    ans.add(i);
+                }
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+
+        }
+        return ans;
+    }
+
+    public List<Movie> getMovieByWeek() {
+        List<Movie> list = getAllMovie();
+        List<Movie> ans = new ArrayList<>();
+        for (Movie i : list) {
+            String sql = "select distinct UserID,FilmID,SID,price from bill where FilmID=? and time>='2022-07-10' and time<='2022-07-16'";
+            try {
+                PreparedStatement st = connection.prepareStatement(sql);
+                st.setString(1, i.getFilmID());
+                ResultSet rs = st.executeQuery();
+                float sum = 0;
+                while (rs.next()) {
+                    sum += rs.getFloat("price");
+                }
+                if (sum > 0) {
+                    i.setSumturnover(sum);
+                    ans.add(i);
+                }
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+
+        }
+        return ans;
+    }
+
+    public List<Movie> getMovieByMonth() {
+        List<Movie> list = getAllMovie();
+        List<Movie> ans = new ArrayList<>();
+        for (Movie i : list) {
+            String sql = "select distinct UserID,FilmID,SID,price from bill where FilmID=? and time>='2022-07-01' and time<='2022-07-31'";
+            try {
+                PreparedStatement st = connection.prepareStatement(sql);
+                st.setString(1, i.getFilmID());
+                ResultSet rs = st.executeQuery();
+                float sum = 0;
+                while (rs.next()) {
+                    sum += rs.getFloat("price");
+                }
+                if (sum > 0) {
                     i.setSumturnover(sum);
                     ans.add(i);
                 }
@@ -743,6 +813,10 @@ public class DAO extends DBContext {
 
     public static void main(String[] args) {
         DAO d = new DAO();
-        d.getMovieById("70K HARRY POTTER VÀ TÙ NHÂN AZKABAN");
+        List<Movie> l = d.getAllMovie();
+
+        for (Movie i : l) {
+            System.out.println(i);
+        }
     }
 }

@@ -9,10 +9,11 @@ import dal.DAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import model.Movie;
 
@@ -20,8 +21,7 @@ import model.Movie;
  *
  * @author Huu
  */
-@WebServlet(name="ListFilm", urlPatterns={"/list"})
-public class ListFilm extends HttpServlet {
+public class TopServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -38,10 +38,10 @@ public class ListFilm extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ListFilm</title>");  
+            out.println("<title>Servlet TopServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ListFilm at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet TopServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,29 +61,24 @@ public class ListFilm extends HttpServlet {
         DAO d=new DAO();
             
         List<Movie> list=d.getAllMovie();
-        List<Movie> li=d.getAllMovieNotPublish();
-        int page,num=6;
-        int sumpage=((list.size()%6==0)?(list.size()/6):(list.size()/6+1));
-        String xpage=request.getParameter("page");
-        if (xpage==null){
-            page=1;
+        String cate=request.getParameter("cate");
+        if (cate!=null){
+            if (cate.equals("week")) list=d.getMovieByWeek();
+            else list=d.getMovieByMonth();
         }
-        else
-            page=Integer.parseInt(xpage);
-        int start,end;
-        start=(page-1)*num;
-        end=Math.min(page*num, list.size());
-        List<Movie> list1=d.getListByPage(list, start, end);
-        request.setAttribute("film", li);
-        request.setAttribute("data", list1);
-        request.setAttribute("page", page);
-        request.setAttribute("num", sumpage);
-        PrintWriter out = response.getWriter();
-         out.println(li);
-        out.println(page);
-        out.print(sumpage);
-        request.getRequestDispatcher("home.jsp").forward(request, response);
+        else list=d.getMovieByWeek();
+        Collections.sort(list, new Comparator<Movie>(){
+            @Override
+            public int compare(Movie o1, Movie o2) {
+                return o1.getSumturnover()> o2.getSumturnover() ? 1 : -1;
+            }
+        });
+        int max=Math.min(6, list.size());
+        list=d.getListByPage(list, 0, max);
+        request.setAttribute("data", list);
+        request.getRequestDispatcher("top.jsp").forward(request, response);
     } 
+     
 
     /** 
      * Handles the HTTP <code>POST</code> method.

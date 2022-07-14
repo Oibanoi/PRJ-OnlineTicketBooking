@@ -80,7 +80,7 @@ body{
     overflow: hidden;
 
 
-    max-width: 1500px;
+    max-width: 1515px;
 
     height: auto;
 }
@@ -93,22 +93,22 @@ body{
         left:0px;
     }
     20% {
-        left:1500px;
+        left:1515px;
     }
     30% {
-        left:1500px;
+        left:1515px;
     }
     40% {
-        left: 3000px;
+        left: 3030px;
     }
     50% {
-        left: 3000px;
+        left: 3030px;
     }
     60% {
-        left: 1500px;
+        left: 1515px;
     }
     70% {
-        left: 1500px;
+        left: 1515px;
     }
     80% {
         left: 0px;
@@ -123,8 +123,8 @@ body{
 
 
 .slide-images{
-    max-width: 4500px;
-    margin: 0 0 0 -3000px;
+    max-width: 4545px;
+    margin: 0 0 0 -3030px;
     position: relative;
     -webkit-animation-name: slide_animation;
     -webkit-animation-duration: 33s;
@@ -133,7 +133,7 @@ body{
 }
 
 .img-container{
-    max-width: 1500px;
+    max-width: 1515px;
     height: auto;
     position: relative;
     float: left;
@@ -180,7 +180,7 @@ li a{
 }
 .content-heading{
     text-align: center;
-    padding-top: 15px;
+    padding: 15px 0;
     font-size: 30px;
 }
 .search-bar{
@@ -359,4 +359,7 @@ ul{
     text-align: center;
     margin-top: 60px;
     padding-left: 100px;
+}
+#content{
+    text-align: center; 
 }

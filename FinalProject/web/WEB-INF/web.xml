@@ -56,6 +56,14 @@
         <servlet-name>StatisticServlet</servlet-name>
         <servlet-class>controller.StatisticServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TopServlet</servlet-name>
+        <servlet-class>controller.TopServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChangeFilm</servlet-name>
+        <servlet-class>controller.ChangeFilm</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>BaseController</servlet-name>
         <url-pattern>/base</url-pattern>
@@ -107,6 +115,14 @@
     <servlet-mapping>
         <servlet-name>StatisticServlet</servlet-name>
         <url-pattern>/statistic</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TopServlet</servlet-name>
+        <url-pattern>/top</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangeFilm</servlet-name>
+        <url-pattern>/changefilm</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

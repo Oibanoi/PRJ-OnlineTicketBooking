@@ -10,7 +10,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Thêm phim</title>
-        <link rel="stylesheet" href="./assets/css/stylesignup.css"/>
+        <link href="assets/css/stylesignup.css" rel="stylesheet" type="text/css"/>
+        <!--<link rel="stylesheet" href="./assets/css/stylesignup.css"/>-->
         <script src="./add/ckeditor/ckeditor.js"></script>
     </head>
     <body>

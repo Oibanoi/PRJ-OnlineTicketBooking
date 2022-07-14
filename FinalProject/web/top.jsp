@@ -1,6 +1,6 @@
 <%-- 
-    Document   : home
-    Created on : Jun 15, 2022, 10:01:55 AM
+    Document   : top
+    Created on : Jul 13, 2022, 5:20:27 PM
     Author     : Huu
 --%>
 
@@ -10,10 +10,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>home</title>
+        <title>JSP Page</title>
         <link rel="stylesheet" href="./assets/css/style.css"/>
-        <script src="./add/ckeditor/ckeditor.js"></script>
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     </head>
     <body>
         <c:set var="ad" value="${sessionScope.account}"/>
@@ -56,38 +54,13 @@
 
         </div>
 
-        <div class="slider-frame">
-            <div class="slide-images">
-                <div class="img-container">
-                    <img src="./assets/images/emvatrinh.jpg">
-                </div>
-                <div class="img-container">
-                    <img src="./assets/images/minion.jpg">
-                </div>
-                <div class="img-container">
-                    <img src="./assets/images/sathu.jpg">
-                </div>
-            </div>
-        </div>
-        <div id="content">
-            <div class="content-heading">
+        
+        <div id="content">            
+            <div class="content-heading" style="margin-top: 65px">
                 <ul id="nav">
-                    <li>Phim sắp chiếu</li>
-                </ul>
-            </div>
-
-            <div class="filmlist">
-                <c:forEach items="${requestScope.film}" var="p">
-                    <div class="movie">
-                        <a href="view?id=${p.filmID}"><img src="movie/image?name=${p.image}" width="100" height="200" /></a>
-
-                        <p>${p.filmID}</p>
-                    </div> 
-                </c:forEach>
-            </div>
-            <div class="content-heading">
-                <ul id="nav">
-                    <li>Phim đang chiếu</li>
+                    <h3 style="color: black">Top phim được xem nhiều nhất</h3>
+                    <li><a href="top?cate=week">Trong tuần</a></li>
+                    <li><a href="top?cate=month">Trong tháng</a></li>
                 </ul>
             </div>
             <h3>${requestScope.error}</h3>
@@ -98,17 +71,6 @@
 
                         <p>${p.filmID}</p>
                     </div> 
-                </c:forEach>
-            </div>
-            <c:set var="page" value="${requestScope.page}"/>
-            <div class="pagination">
-                <c:forEach begin="${1}" end="${requestScope.num}" var="i">
-                    <c:if test="${page==i}">
-                        <a href="list?page=${i}" id="choosed">${i}</a>
-                    </c:if>
-                    <c:if test="${page!=i}">
-                        <a href="list?page=${i}" >${i}</a>
-                    </c:if>
                 </c:forEach>
             </div>
         </div>
@@ -155,6 +117,5 @@
                 </div>
             </div>
         </footer>
-
     </body>
 </html>

@@ -51,12 +51,13 @@
                 <c:set var="p" value="${requestScope.movie}"/>
 
                 <h1 style="margin-top: 66px; text-align: center">${p.filmID}</h1>
-                <div style="width: 30%; float: left;text-align: center">
+                <div style="width: 30%; float: left;text-align: center;text-decoration: none">
                     <img src="movie/image?name=${p.image}" width="auto" height="auto" style="display: block;margin-left: auto; margin-right: auto;height: 336px;width: 228px;"/>
                     <br/>
                     <c:if test="${ad.role==1}">
-                        <a href="addschedulefilm?id=${p.filmID}" style="text-align: center;text-decoration: none">Thêm Phòng chiếu</a>
-                        <a href="deletefilm?id=${p.filmID}">Xoa phim</a>
+                        <a href="addschedulefilm?id=${p.filmID}">Thêm Phòng chiếu</a>
+                        <a href="deletefilm?id=${p.filmID}">Xóa phim</a>
+                        <a href="changefilm?id=${p.filmID}">Sửa phim</a>
                     </c:if>
 
                 </div>
@@ -107,19 +108,19 @@
                         <h4>get help</h4>
                         <ul>
                             <li><a href="#">FAQ</a></li>
-                            <li><a href="#">shipping</a></li>
-                            <li><a href="#">returns</a></li>
-                            <li><a href="#">order status</a></li>
-                            <li><a href="#">payment options</a></li>
+                            <li><a href="#"> </a></li>
+                            <li><a href="#"> </a></li>
+                            <li><a href="#"> </a></li>
+                            <li><a href="#"> </a></li>
                         </ul>
                     </div>
                     <div class="footer-col">
                         <h4>online shop</h4>
                         <ul>
-                            <li><a href="#">watch</a></li>
-                            <li><a href="#">bag</a></li>
-                            <li><a href="#">shoes</a></li>
-                            <li><a href="#">dress</a></li>
+                            <li><a href="#"> </a></li>
+                            <li><a href="#"> </a></li>
+                            <li><a href="#"> </a></li>
+                            <li><a href="#"> </a></li>
                         </ul>
                     </div>
                     <div class="footer-col">
