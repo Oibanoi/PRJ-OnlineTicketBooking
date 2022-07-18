@@ -3,24 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/controller/AddScheduleFilm.java</file>
-            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/dal/DAO.java</file>
-            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/controller/TopServlet.java</file>
-            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/web/top.jsp</file>
-            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/web/deletefilm.jsp</file>
-            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/web/assets/css/style.css</file>
-            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/web/changefilm.jsp</file>
-            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/web/home.jsp</file>
-            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/controller/ChangeFilm.java</file>
-            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/controller/ListFilm.java</file>
-            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/web/addfilm.jsp</file>
-            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/web/changein4.jsp</file>
             <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/controller/AddFilmServlet.java</file>
-            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/web/booking.jsp</file>
-            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/controller/ChangeServlet.java</file>
-            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/web/index.html</file>
-            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/web/view.jsp</file>
-            <file>file:/D:/download/SU22/1PRJ/AssignmentPRJ/PRJ/FinalProject/src/java/model/Movie.java</file>
         </group>
     </open-files>
 </project-private>

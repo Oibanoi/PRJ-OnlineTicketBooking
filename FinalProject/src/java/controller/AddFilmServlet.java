@@ -124,7 +124,7 @@ public class AddFilmServlet extends HttpServlet {
             d.addSeatSchedule(c);
         List<Movie> list=d.getAllMovie();
         request.setAttribute("data", list);
-        request.getRequestDispatcher("home.jsp").forward(request, response);
+        request.getRequestDispatcher("list").forward(request, response);
             //out.println("Complete");
             //out.print(c.toString());
             //response.sendRedirect("home.jsp");

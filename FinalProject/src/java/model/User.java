@@ -29,6 +29,17 @@ public class User {
     }
     private String password,name,email,address,phonenumber;
     private boolean sex;
+    private float cost;
+
+    public float getCost() {
+        return cost;
+    }
+
+    public void setCost(float cost) {
+        this.cost = cost;
+    }
+
+   
 
     public User(int role, String password, String name) {
         this.role = role;

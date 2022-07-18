@@ -19,12 +19,12 @@
         <div class="container">
             <div class="title">Đổi thông tin phim</div>
             <c:set var="f" value="${requestScope.film}"/>
-            <form action="addfilm" method="POST"  enctype="multipart/form-data">
+            <form action="changefilm" method="POST"  >
                 <span class="details">Tên phim</span>
                 <input type="text" name="id" required value="${f.filmID}">
                 <br/>
                 <span class="details">Độ hot</span>
-                <input type="text"name="hot" required value="${f.hotLevel}">
+                <input type="text" name="hot" required value="${f.hotLevel}">
                 <br/>
                 <span class="details">Trạng thái</span>
                 <input type="text"  name="status" required value="${f.status}">
@@ -37,17 +37,17 @@
                 <input type="text" name="price" required value="${f.price}">
                 <br/>
                 <span class="details">Thời lượng</span>
-                <input type="text"name="duration" required value="${f.duration}">
+                <input type="text" name="duration" required value="${f.duration}">
                 <br/>
                 <span class="details">Chi tiết phim</span>
                 <br/>
                 <textarea id="editor1" name="detail" rows="10" cols="80" placeholder="Enter detail" required >${f.information}</textarea>
                 <br/>
                 <span class="details">Ảnh</span>
-                <input type="file" placeholder="Enter image" name="image" required>
+                <input type="file" placeholder="Enter image" name="image">
                 <br/>
                 <div class="button">
-                    <input type="submit" value="Add">
+                    <input type="submit" value="Change">
                 </div>
                 <script>
                     // Replace the <textarea id="editor1"> with a CKEditor 4

@@ -19,10 +19,18 @@ public class Movie {
     private Date Publish_date;
     private List<Schedule> schedules=new ArrayList<>();
     private float sumturnover;
-    private int male,female;
+    private int male,female,sum;
 
     public int getMale() {
         return male;
+    }
+
+    public int getSum() {
+        return sum;
+    }
+
+    public void setSum(int sum) {
+        this.sum = sum;
     }
 
     public void setMale(int male) {

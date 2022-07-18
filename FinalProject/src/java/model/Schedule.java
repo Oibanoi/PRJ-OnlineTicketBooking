@@ -14,7 +14,16 @@ public class Schedule {
     private int SID;
     private String StartTime,EndTime;
     private Date day;
+    private int count;
 
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+    
     public Schedule(int SID, String StartTime, String EndTime, Date day) {
         this.SID = SID;
         this.StartTime = StartTime;

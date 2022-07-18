@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import model.Cart;
 import model.Movie;
@@ -330,6 +332,32 @@ public class DAO extends DBContext {
             System.out.println(e);
         }
         return list;
+    }
+
+    public void update(Movie c) {
+        String sql = "UPDATE [dbo].[Movie]\n"
+                + "   SET [HotLevel] = ?\n"
+                + "      ,[Information] = ?\n"
+                + "      ,[Price] = ?\n"
+                + "      ,[Publish_date] = ?\n"
+                + "      ,[Duration] = ?\n"
+                + "      ,[status] = ?\n"
+                + "      ,[image] = ?\n"
+                + " WHERE FilmID=?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, c.getHotLevel());
+            st.setString(2, c.getInformation());
+            st.setFloat(3, c.getPrice());
+            st.setDate(4, c.getPublish_date());
+            st.setFloat(5, c.getDuration());
+            st.setString(6, c.getStatus());
+            st.setString(7, c.getImage());
+            st.setString(8, c.getFilmID());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 
     public void update(User c) {
@@ -751,6 +779,13 @@ public class DAO extends DBContext {
                 }
                 if (sum > 0) {
                     i.setSumturnover(sum);
+                    String sql1 = "select count(FilmID) as [sum] from bill where FilmID=?";
+                    PreparedStatement st1 = connection.prepareStatement(sql1);
+                    st1.setString(1, i.getFilmID());
+                    ResultSet rs1 = st1.executeQuery();
+                    if (rs1.next()) {
+                        i.setSum(rs1.getInt("sum"));
+                    }
                     ans.add(i);
                 }
             } catch (SQLException e) {
@@ -786,6 +821,81 @@ public class DAO extends DBContext {
         return ans;
     }
 
+    public List<Schedule> getStatSchedule() {
+        List<Schedule> list = new ArrayList<>();
+        try {
+            for (int i = 1; i <= 5; i++) {
+                Schedule s = getScheduleById(i);
+                String sql = "select count(SID%10)as [Time] from bill where SID%10=?";
+                PreparedStatement st = connection.prepareStatement(sql);
+                st.setInt(1, i);
+                ResultSet rs = st.executeQuery();
+                if (rs.next()) {
+                    int count = rs.getInt("Time");
+                    s.setCount(count);
+                    list.add(s);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    public List<User> getAllUser()
+    {
+        List<User> list=new ArrayList<>();
+        String sql="SELECT *  FROM [dbo].[User]";
+        try{
+            PreparedStatement st=connection.prepareStatement(sql);
+            ResultSet rs=st.executeQuery();
+            while (rs.next())
+            {
+                User u=new User();
+                u.setAddress(rs.getString("address"));
+                u.setEmail(rs.getString("email"));
+                u.setName(rs.getString("name"));
+                u.setUserID(rs.getInt("UserID"));
+                u.setPhonenumber(rs.getString("phonenumber"));
+                list.add(u);
+            }
+        }catch(SQLException e){
+            System.out.println(e);
+        }
+        return list;
+    }
+    public List<User> getUserCost()
+    {
+        List<User> list=getAllUser();
+        try{
+            for (User i: list)
+        {
+            String sql="select distinct UserID,FilmID,SID,price from bill where UserID=?";
+            PreparedStatement st=connection.prepareStatement(sql);
+            st.setInt(1, i.getUserID());    
+            ResultSet rs=st.executeQuery();
+            float sum=0;
+            while (rs.next())
+            {
+                sum+=rs.getFloat("price");
+            }
+            i.setCost(sum);
+        }
+        }catch(SQLException e){
+            System.out.println(e);
+        }
+        Collections.sort(list,new Comparator<User>() {
+            @Override
+            public int compare(User o1, User o2) {
+                return (int)(o2.getCost()-o1.getCost());
+            }
+        });
+        List<User> ans=new ArrayList<>();
+        for (int i=0;i<Math.min(5, list.size());i++)
+        {
+            ans.add(list.get(i));
+        }
+        return ans;
+    }
     public List<Movie> getMovieByMonth() {
         List<Movie> list = getAllMovie();
         List<Movie> ans = new ArrayList<>();
@@ -813,10 +923,10 @@ public class DAO extends DBContext {
 
     public static void main(String[] args) {
         DAO d = new DAO();
-        List<Movie> l = d.getAllMovie();
+        List<User> list = d.getUserCost();
 
-        for (Movie i : l) {
-            System.out.println(i);
+        for (User i : list) {
+            System.out.println(i.getCost());
         }
     }
 }

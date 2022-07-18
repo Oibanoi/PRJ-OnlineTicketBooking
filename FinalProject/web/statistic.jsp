@@ -45,12 +45,83 @@
 
         </div>
         <h1 style="margin-top: 70px;" >Tổng doanh thu tháng: ${requestScope.sum}</h1>
+
+        <div style="padding: 30px 60px;">
+            <h1>Số lượng vé đặt theo khung giờ</h1>
+            <table border="1" style="margin: 0 auto;text-align: center;">
+                <tr>
+                    <th>Khung giờ</th>
+                    <th>Số lượng vé đặt</th>
+                </tr>
+                <c:forEach items="${requestScope.listsche}" var="ls">
+                    <tr>
+                        <td>${ls.startTime}-${ls.endTime}</td>
+                        <td>${ls.count}</td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
+        <div class="break">
+
+        </div>
+        <div style="padding: 30px 60px;">
+            <h1>Top 5 người dùng mua nhiều nhất</h1>
+            <table border="1" style="margin: 0 auto;text-align: center;">
+                <tr>
+                    <th>Tên</th>
+                    <th>Chi phí</th>
+                </tr>
+                <c:forEach items="${requestScope.listU}" var="lu">
+                    <tr>
+                        <td>${lu.name}</td>
+                        <td>${lu.cost}</td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
+        <div class="break">
+
+        </div>
         <div style="width: 40%; text-align: center;
-             margin-top: 30px;">
+             margin-top: 30px;float: left;">
             <h1>Doanh thu từng phim</h1>
             <canvas id="myChart"></canvas>
         </div>
+        <div style="width: 55%; text-align: center;
+             margin-top: 30px;float: left;">
+            <h1>Số lượng vé từng phim</h1>
+            <canvas id="myChartLine"></canvas>
+        </div>
+
+
         <script>
+            //line chart
+            const labelsLine = [
+            <c:forEach items="${requestScope.list}" var="i">
+            '${i.filmID}',
+            </c:forEach>
+            ];
+            const dataLine = {
+            labels: labelsLine,
+                    datasets: [{
+                    label: 'My First Dataset',
+                            data: [<c:forEach items="${requestScope.list}" var="i">
+                ${i.sum},
+            </c:forEach>],
+                            fill: false,
+                            borderColor: 'rgb(75, 192, 192)',
+                            tension: 0.1
+                    }]
+            };
+            const configLine = {
+            type: 'line',
+                    data: dataLine,
+            };
+            const myChartLine = new Chart(
+                    document.getElementById('myChartLine'),
+                    configLine
+                    );
+            //donut chart
             const data = {
             labels: [
             <c:forEach items="${requestScope.list}" var="i">
@@ -86,6 +157,7 @@
                     config
                     );
         </script>
+
     </body>
 
 </html>

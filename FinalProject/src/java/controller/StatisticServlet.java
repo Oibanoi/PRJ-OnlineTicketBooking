@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Movie;
+import model.Schedule;
 import model.User;
 
 /**
@@ -64,7 +65,11 @@ public class StatisticServlet extends HttpServlet {
         User a=(User) session.getAttribute("account");
         if (a.getRole()!=0)
             {
+                List<Schedule> listsche=d.getStatSchedule();
                 List<Movie> turnover=d.getAllTurnover();
+                List<User> listU=d.getUserCost();
+                request.setAttribute("listU", listU);
+                request.setAttribute("listsche", listsche);
                 request.setAttribute("list", turnover);
                 request.setAttribute("sum", sum);
                 request.getRequestDispatcher("statistic.jsp").forward(request, response);

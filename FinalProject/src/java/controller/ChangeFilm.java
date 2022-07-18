@@ -12,6 +12,13 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.sql.Date;
+import java.util.List;
+import java.util.Properties;
 import model.Movie;
 
 /**
@@ -75,7 +82,54 @@ public class ChangeFilm extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+         String id=request.getParameter("id");
+        String hot_raw=request.getParameter("hot");
+        String price_raw=request.getParameter("price");
+        String duration_raw=request.getParameter("duration");
+        String detail=request.getParameter("detail");
+        
+        
+        PrintWriter out = response.getWriter();
+        
+        String status=request.getParameter("status");
+        String pldate=request.getParameter("pldate");
+//        out.println(pldate);
+//        out.println(id);
+//        out.println(hot_raw);
+//        out.println(price_raw);
+//        out.println(duration_raw);
+//        out.println(detail);
+        int hot;
+        float price, duration;
+        Date publ;
+        try{
+            DAO d=new DAO();
+            
+            Movie c=d.getMovieById(id);
+            hot=Integer.parseInt(hot_raw);
+            price=Float.parseFloat(price_raw);
+            duration=Float.parseFloat(duration_raw);
+            publ=Date.valueOf(pldate);
+            c.setDuration(duration);
+            c.setHotLevel(hot);
+            c.setPrice(price);
+            c.setPublish_date(publ);
+            c.setInformation(detail);
+            c.setStatus(status);
+            d.update(c);
+            d.addSeatSchedule(c);
+        response.sendRedirect("list");
+        //request.getRequestDispatcher("list").forward(request, response);
+            //out.println("Complete");
+            //out.print(c.toString());
+            //response.sendRedirect("home.jsp");
+                    
+        }catch(NumberFormatException e){
+            out.print(e);
+        }
     }
 
     /** 
